@@ -3,6 +3,7 @@ using AutoMapper;
 using MinhaBiblioteca.Application.Cqrs.Commands;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Interfaces;
+using MinhaBiblioteca.Application.ViewModels;
 using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Application.UseCases
@@ -18,10 +19,11 @@ namespace MinhaBiblioteca.Application.UseCases
             _editoraCommand = editoraCommand;
         }
 
-        public async Task Executar(InserirEditoraCommand command)
+        public async Task<EditoraViewModel> Executar(InserirEditoraCommand command)
         {
             var editora = _mapper.Map<Editora>(command);
-            await _editoraCommand.AdicionarEditora(editora);
+            editora = await _editoraCommand.AdicionarEditora(editora);
+            return _mapper.Map<EditoraViewModel>(editora);
         }
     }
 }

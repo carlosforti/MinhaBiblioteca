@@ -1,12 +1,24 @@
+using System.Collections.Generic;
 using System.Net;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using Microsoft.AspNetCore.Mvc;
+using MinhaBiblioteca.Application.ViewModels;
 
 namespace MinhaBiblioteca.Api.Formatter
 {
+    public enum TipoRequisicao
+    {
+        GET,
+        POST,
+        PATCH,
+        PUT,
+        DELETE
+    }
+    
     public interface IResponseFormatter
     {
-        IActionResult FormatarResposta(object valor);
+        IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, BaseViewModel valor);
+        IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, IEnumerable<BaseViewModel> valor);
     }
 
     public class ResponseFormatter : IResponseFormatter
@@ -17,7 +29,19 @@ namespace MinhaBiblioteca.Api.Formatter
             _notificador = notificador;
         }
 
-        public IActionResult FormatarResposta(object valor)
+        public IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, BaseViewModel valor)
+        {
+            if (_notificador.TemErros)
+            {
+                return FormatarErros();
+            }
+
+            if (tipoRequisicao == TipoRequisicao.POST)
+                return new CreatedAtRouteResult("Get", new {id = valor.Id}, valor);
+            return new OkObjectResult(valor);
+        }
+
+        public IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, IEnumerable<BaseViewModel> valor)
         {
             if (_notificador.TemErros)
             {

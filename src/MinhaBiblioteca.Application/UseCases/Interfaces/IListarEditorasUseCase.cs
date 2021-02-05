@@ -1,11 +1,11 @@
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MinhaBiblioteca.Application.ViewModels;
-using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Application.UseCases.Interfaces
 {
-    public interface IBuscarEditoraPorIdUseCase
+    public interface IListarEditorasUseCase
     {
-        Task<EditoraViewModel> Executar(int id);
+        Task<IEnumerable<EditoraResumidaViewModel>> Executar();
     }
 }

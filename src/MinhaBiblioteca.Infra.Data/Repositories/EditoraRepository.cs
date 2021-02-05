@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -66,9 +67,9 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IQueryable<Editora>> ListarEditoras()
+        public async Task<IEnumerable<Editora>> ListarEditoras()
         {
-            return await Task.FromResult(_context.Editoras.AsNoTracking().AsQueryable());
+            return await Task.FromResult(_context.Editoras.AsNoTracking());
         }
 
         public async Task<Editora> BuscarEditora(int id)

@@ -8,6 +8,7 @@ namespace MinhaBiblioteca.Application.Configurations
     {
         public static IServiceCollection ConfigurarUseCases(this IServiceCollection services)
         {
+            services.AddScoped<IListarEditorasUseCase, ListarEditorasUseCase>();
             services.AddScoped<IInserirEditoraUseCase, InserirEditoraUseCase>();
             services.AddScoped<IBuscarEditoraPorIdUseCase, BuscarEditoraPorIdUseCase>();
 

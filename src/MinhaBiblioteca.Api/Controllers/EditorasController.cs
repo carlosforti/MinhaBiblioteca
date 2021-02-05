@@ -6,44 +6,57 @@ using MinhaBiblioteca.Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+
 namespace MinhaBiblioteca.Api.Controllers
 {
     [ApiController]
-    [Route("v1/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/[controller]")]
     public class EditorasController : ControllerBase
     {
         private readonly IResponseFormatter _formatter;
         private readonly ILogger<EditorasController> _logger;
         private readonly IInserirEditoraUseCase _inserirEditoraUseCase;
         private readonly IBuscarEditoraPorIdUseCase _buscarEditoraPorIdUseCase;
+        private readonly IListarEditorasUseCase _listarEditorasUseCase;
 
         public EditorasController(ILogger<EditorasController> logger,
             IInserirEditoraUseCase inserirEditoraUseCase,
             IBuscarEditoraPorIdUseCase buscarEditoraPorIdUseCase,
-            IResponseFormatter formatter)
+            IResponseFormatter formatter, IListarEditorasUseCase listarEditorasUseCase)
         {
             _logger = logger;
             _inserirEditoraUseCase = inserirEditoraUseCase;
             _buscarEditoraPorIdUseCase = buscarEditoraPorIdUseCase;
             _formatter = formatter;
+            _listarEditorasUseCase = listarEditorasUseCase;
         }
 
-        [HttpPost]
-        [ProducesResponseType((int) HttpStatusCode.Created)]
-        public async Task Post(InserirEditoraCommand command)
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            await _inserirEditoraUseCase.Executar(command);
+            var editoras = await _listarEditorasUseCase.Executar();
+            return _formatter.FormatarResposta(TipoRequisicao.GET, editoras);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Get")]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetById(int id)
         {
             var editora = await _buscarEditoraPorIdUseCase.Executar(id);
+            return _formatter.FormatarResposta(TipoRequisicao.GET, editora);
+        }
 
-            return _formatter.FormatarResposta(editora);
-        } 
+        [HttpPost]
+        [ProducesResponseType((int) HttpStatusCode.Created)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Post([FromBody] InserirEditoraCommand command)
+        {
+            var editora = await _inserirEditoraUseCase.Executar(command);
+            return _formatter.FormatarResposta(TipoRequisicao.POST, editora);
+            // return CreatedAtRoute("Get", new {id = editora.Id}, editora);
+        }
     }
 }

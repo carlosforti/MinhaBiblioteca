@@ -19,16 +19,16 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
 
         public static IServiceCollection AdicionarBibliotecaContext(this IServiceCollection services, IConfiguration configuration)
         {
-            // var connectionString =  configuration.GetConnectionString("BibliotecaContext");
-            // services.AddDbContext<BibliotecaContext>(options =>
-            // {
-            //     options.UseSqlServer(connectionString);
-            // });
-
+            var connectionString =  configuration.GetConnectionString("BibliotecaContext");
             services.AddDbContext<BibliotecaContext>(options =>
             {
-                options.UseInMemoryDatabase(databaseName: "BibliotecaContext");
+                options.UseSqlServer(connectionString);
             });
+
+            // services.AddDbContext<BibliotecaContext>(options =>
+            // {
+            //     options.UseInMemoryDatabase(databaseName: "BibliotecaContext");
+            // });
             
             return services;
         }

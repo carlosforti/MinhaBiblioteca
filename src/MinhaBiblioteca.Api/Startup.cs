@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +40,12 @@ namespace MinhaBiblioteca.Api
                 .AdicionarCommandsQueries()
                 .ConfigurarAutoMapper()
                 .ConfigurarUseCases()
+                .AddApiVersioning(config =>
+                {
+                    config.DefaultApiVersion = new ApiVersion(1, 0);
+                    config.AssumeDefaultVersionWhenUnspecified = true;
+                    config.ReportApiVersions = true;
+                })
                 .AddSwaggerGen();
         }
 

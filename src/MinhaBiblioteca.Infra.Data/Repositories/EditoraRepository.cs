@@ -15,6 +15,9 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
 {
     public class EditoraRepository : IEditoraCommand, IEditoraQuery
     {
+        private const string NomeEntidade = "Editora";
+        private const string EditoraNaoEncontrada = "Editora não encontrada";
+        
         private readonly BibliotecaContext _context;
         private readonly INotificador _notifier;
 
@@ -34,7 +37,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             }
             catch (Exception e)
             {
-                _notifier.AdicionarErro("editora", e.Message, HttpStatusCode.InternalServerError);
+                _notifier.AdicionarErro(NomeEntidade, e.Message, HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -49,7 +52,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             }
             catch (Exception e)
             {
-                _notifier.AdicionarErro("editora", e.Message, HttpStatusCode.InternalServerError);
+                _notifier.AdicionarErro(NomeEntidade, e.Message, HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -59,7 +62,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             var editora = await BuscarEditora(id);
             if (editora == null)
             {
-                _notifier.AdicionarErro("Editora", "Editora não encontrada", HttpStatusCode.NotFound);
+                _notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NotFound);
                 return;
             }
 
@@ -78,7 +81,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             {
                 var editora = await _context.Editoras.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 if (editora == null)
-                    _notifier.AdicionarErro("editora", "Editora não encontrada", HttpStatusCode.NoContent);
+                    _notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NoContent);
             
                 return editora;
             }

@@ -34,6 +34,13 @@ namespace MinhaBiblioteca.Api
         {
             services.AddControllers();
             services
+                .AddLogging(options =>
+                {
+                    options.AddConsole(configure =>
+                    {
+                        configure.DisableColors = false;
+                    });
+                })
                 .ConfigureShared()
                 .AddScoped<IResponseFormatter, ResponseFormatter>()
                 .AdicionarBibliotecaContext(Configuration)

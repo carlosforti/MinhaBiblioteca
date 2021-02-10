@@ -22,8 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MinhaBiblioteca.Api\MinhaBiblioteca.Api.csproj" />
     <ProjectReference Include="..\..\MinhaBiblioteca.Application\MinhaBiblioteca.Application.csproj" />
-    <ProjectReference Include="..\..\MinhaBiblioteca.Infra.CrossCutting\MinhaBiblioteca.Infra.CrossCutting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application" />
   </ItemGroup>
 
 </Project>

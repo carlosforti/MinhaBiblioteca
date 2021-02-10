@@ -8,11 +8,11 @@ namespace MinhaBiblioteca.Api.Formatter
 {
     public enum TipoRequisicao
     {
-        GET,
-        POST,
-        PATCH,
-        PUT,
-        DELETE
+        Get,
+        Post,
+        Patch,
+        Put,
+        Delete
     }
     
     public interface IResponseFormatter
@@ -35,10 +35,19 @@ namespace MinhaBiblioteca.Api.Formatter
             {
                 return FormatarErros();
             }
-
-            if (tipoRequisicao == TipoRequisicao.POST)
-                return new CreatedAtRouteResult("Get", new {id = valor.Id}, valor);
-            return new OkObjectResult(valor);
+            
+            switch (tipoRequisicao)
+            {
+                case TipoRequisicao.Post:
+                    return new CreatedAtRouteResult("Get", new {id = valor.Id}, valor);
+                case TipoRequisicao.Put:
+                case TipoRequisicao.Patch:
+                    return new AcceptedAtRouteResult("Get", new {id = valor.Id}, valor);
+                case TipoRequisicao.Delete:
+                    return new NoContentResult();
+                default:
+                    return new OkObjectResult(valor);
+            }
         }
 
         public IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, IEnumerable<BaseViewModel> valor)
@@ -57,7 +66,7 @@ namespace MinhaBiblioteca.Api.Formatter
             {
                 HttpStatusCode.NoContent => new NoContentResult(),
                 HttpStatusCode.NotFound => new NotFoundResult(),
-                HttpStatusCode.InternalServerError => new ObjectResult(null),
+                HttpStatusCode.InternalServerError => new StatusCodeResult((int)HttpStatusCode.InternalServerError),
                 _ => new BadRequestObjectResult(_notificador.Erros)
             };
         }

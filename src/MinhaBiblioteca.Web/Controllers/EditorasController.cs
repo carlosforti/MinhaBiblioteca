@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using MinhaBiblioteca.Application.Interfaces.Data;
 using Microsoft.AspNetCore.Mvc;
+using MinhaBiblioteca.Application.Interfaces.Data.Editora;
 
 namespace MinhaBiblioteca.Web.Controllers
 {

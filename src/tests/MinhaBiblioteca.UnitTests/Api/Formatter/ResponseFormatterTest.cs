@@ -3,7 +3,7 @@ using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using MinhaBiblioteca.Api.Formatter;
-using MinhaBiblioteca.Application.ViewModels;
+using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using Xunit;
 
@@ -99,7 +99,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new List<EditoraViewModel>
             {
-                new EditoraViewModel
+                new()
                 {
                     Id = 1,
                     Nome = "Editora",
@@ -122,7 +122,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new List<EditoraViewModel>
             {
-                new EditoraViewModel
+                new()
                 {
                     Id = 1,
                     Nome = "Editora",
@@ -145,7 +145,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new List<EditoraViewModel>
             {
-                new EditoraViewModel
+                new()
                 {
                     Id = 1,
                     Nome = "Editora",
@@ -168,7 +168,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new List<EditoraViewModel>
             {
-                new EditoraViewModel
+                new()
                 {
                     Id = 1,
                     Nome = "Editora",
@@ -211,7 +211,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editoras = new List<EditoraViewModel>
             {
-                new EditoraViewModel
+                new()
                 {
                     Id = 1,
                     Nome = "Editora",

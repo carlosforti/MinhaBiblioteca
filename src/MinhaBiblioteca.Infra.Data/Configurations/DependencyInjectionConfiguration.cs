@@ -1,25 +1,21 @@
-using MinhaBiblioteca.Application.Interfaces.Data;
+using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Infra.Data.Context;
 using MinhaBiblioteca.Infra.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MinhaBiblioteca.Application.Interfaces.Data;
+using MinhaBiblioteca.Application.Interfaces.Data.Editora;
 
 namespace MinhaBiblioteca.Infra.Data.Configurations
 {
     public static class DependencyInjectionConfiguration
     {
-        public static IServiceCollection AdicionarCommandsQueries(this IServiceCollection services)
-        {
-            services.AddScoped<IEditoraCommand, EditoraRepository>();
-            services.AddScoped<IEditoraQuery, EditoraRepository>();
-
-            return services;
-        }
-
-        public static IServiceCollection AdicionarBibliotecaContext(this IServiceCollection services,
+        public static IServiceCollection ConfigurarInfraData(this IServiceCollection services,
             IConfiguration configuration)
         {
+            // services.AddScoped<IEditoraCommand, EditoraRepository>();
+            // services.AddScoped<IEditoraQuery, EditoraRepository>();
+            services.AddScoped<IEditoraRepository, EditoraRepository>();
 #if DEBUG
             services.AddDbContext<BibliotecaContext>(options =>
             {

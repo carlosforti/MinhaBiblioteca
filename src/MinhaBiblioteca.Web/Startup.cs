@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MinhaBiblioteca.Application.Configurations;
-using MinhaBiblioteca.Infra.Data.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,10 +19,11 @@ namespace MinhaBiblioteca.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AdicionarBibliotecaContext(Configuration)
-                .AdicionarCommandsQueries()
-                .ConfigurarAutoMapper()
-                .ConfigurarUseCases();
+            // services
+                // .AdicionarBibliotecaContext(Configuration)
+                // .AdicionarCommandsQueries()
+                // .ConfigurarAutoMapper()
+                // .ConfigurarUseCases();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

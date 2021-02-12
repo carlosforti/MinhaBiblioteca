@@ -1,22 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MinhaBiblioteca.Api.Formatter;
 using MinhaBiblioteca.Application.Configurations;
 using MinhaBiblioteca.Infra.Shared.Configurations;
-using MinhaBiblioteca.Infra.Data.Configurations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Versioning;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using MinhaBiblioteca.Infra.Data.Configurations;
 
 namespace MinhaBiblioteca.Api
 {
@@ -34,6 +26,7 @@ namespace MinhaBiblioteca.Api
         {
             services.AddControllers();
             services
+                .AddScoped<IResponseFormatter, ResponseFormatter>()
                 .AddLogging(options =>
                 {
                     options.AddConsole(configure =>
@@ -41,12 +34,10 @@ namespace MinhaBiblioteca.Api
                         configure.DisableColors = false;
                     });
                 })
+                .ConfigurarInfraData(Configuration)
                 .ConfigureShared()
-                .AddScoped<IResponseFormatter, ResponseFormatter>()
-                .AdicionarBibliotecaContext(Configuration)
-                .AdicionarCommandsQueries()
                 .ConfigurarAutoMapper()
-                .ConfigurarUseCases()
+                .ConfigurarUseCases(Configuration)
                 .AddApiVersioning(config =>
                 {
                     config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -73,7 +64,7 @@ namespace MinhaBiblioteca.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Minha Biblioteca V1");
                 c.RoutePrefix = "";
             });
             

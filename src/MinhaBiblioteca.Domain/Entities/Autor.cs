@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 
 namespace MinhaBiblioteca.Domain.Entities
@@ -18,6 +17,6 @@ namespace MinhaBiblioteca.Domain.Entities
         public string Email { get; private set; }
         public string Pais { get; private set; }
 
-        public ICollection<Livro> Livros = new List<Livro>();
+        // public ICollection<Livro> Livros = new List<Livro>();
     }
 }

@@ -1,11 +1,11 @@
 using System.Net;
 using System.Threading.Tasks;
 using MinhaBiblioteca.Api.Formatter;
-using MinhaBiblioteca.Application.Cqrs.Commands;
-using MinhaBiblioteca.Application.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MinhaBiblioteca.Application.UseCases.Editora.Interfaces;
 using MinhaBiblioteca.Application.ViewModels;
+using MinhaBiblioteca.Application.ViewModels.Editora;
 
 
 namespace MinhaBiblioteca.Api.Controllers
@@ -57,18 +57,18 @@ namespace MinhaBiblioteca.Api.Controllers
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Post([FromBody] InserirEditoraCommand command)
+        public async Task<IActionResult> Post([FromBody] InserirEditoraViewModel viewModel)
         {
-            var editora = await _inserirEditoraUseCase.Executar(command);
+            var editora = await _inserirEditoraUseCase.Executar(viewModel);
             return _formatter.FormatarResposta(TipoRequisicao.Post, editora);
         }
         
         [HttpPatch("{id}")]
         [ProducesResponseType((int) HttpStatusCode.Accepted)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Patch(int id, [FromBody] AtualizarEditoraCommand command)
+        public async Task<IActionResult> Patch(int id, [FromBody] AtualizarEditoraViewModel viewModel)
         {
-            var editora = await _atualizarEditoraUseCase.Executar(id, command);
+            var editora = await _atualizarEditoraUseCase.Executar(id, viewModel);
             return _formatter.FormatarResposta(TipoRequisicao.Patch, editora);
         }
         

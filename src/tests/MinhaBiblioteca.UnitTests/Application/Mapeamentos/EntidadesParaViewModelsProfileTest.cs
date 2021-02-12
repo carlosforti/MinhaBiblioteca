@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Mapeamentos;
-using MinhaBiblioteca.Application.ViewModels;
+using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Domain.Entities;
 using Xunit;
 

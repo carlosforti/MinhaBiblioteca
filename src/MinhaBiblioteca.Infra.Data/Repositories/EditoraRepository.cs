@@ -1,19 +1,17 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Application.Interfaces.Data;
+using MinhaBiblioteca.Application.Interfaces.Data.Editora;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using MinhaBiblioteca.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
 {
-    public class EditoraRepository : IEditoraCommand, IEditoraQuery
+    public class EditoraRepository : IEditoraRepository
     {
         private const string NomeEntidade = "Editora";
         private const string EditoraNaoEncontrada = "Editora não encontrada";

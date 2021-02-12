@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using MinhaBiblioteca.Application.ViewModels;
+using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Application.Mapeamentos
@@ -10,6 +11,8 @@ namespace MinhaBiblioteca.Application.Mapeamentos
         {
             CreateMap<Editora, EditoraViewModel>();
             CreateMap<Editora, EditoraResumidaViewModel>();
+            CreateMap<Autor, AutorViewModel>();
+            CreateMap<Autor, AutorResumidoViewModel>();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace MinhaBiblioteca.Application.Configurations
     {
         public static IServiceCollection ConfigurarAutoMapper(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(CommandsParaEntidadesProfile));
+            services.AddAutoMapper(typeof(ViewModelsParaEntidadesProfile));
             return services;
         }
     }

@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  sqlserver:
+    container_name: ${CONTAINER_NAME}
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      ACCEPT_EULA: 'Y'
+      MSSQL_SA_PASSWORD: '${PASSWORD}'
+    volumes:
+       - '${DATA_DIR}:/var/opt/mssql/data'
+       - '${LOG_DIR}:/var/opt/mssql/log'
+       - '${SECRETS_DIR}:/var/opt/mssql/secrets'

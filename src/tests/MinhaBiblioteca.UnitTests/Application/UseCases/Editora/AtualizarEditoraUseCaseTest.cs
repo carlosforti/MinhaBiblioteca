@@ -2,10 +2,12 @@
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
-using MinhaBiblioteca.Application.Interfaces.Data.Editora;
-using MinhaBiblioteca.Application.UseCases.Editora;
+using MinhaBiblioteca.Application.UseCases.Editoras;
 using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
+using MinhaBiblioteca.UtilTests.Bogus;
+using MinhaBiblioteca.UtilTests.Bogus.Editora;
+using MinhaBiblioteca.UtilTests.Mapeamento;
 using Moq;
 using Xunit;
 
@@ -13,7 +15,7 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editora
 {
     public class AtualizarEditoraUseCaseTest
     {
-        private readonly IMapper _mapper = AutoMapperTestHelper.Mapper;
+        private readonly IMapper _mapper = AutoMapperHelper.Mapper;
         private readonly Mock<IEditoraRepository> _editoraRepository = new();
         private readonly INotificador _notificador = new Notificador();
         
@@ -68,25 +70,19 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editora
         [Fact]
         public async Task Executar_DeveRetornar_QuandoForSucesso()
         {
+            var esperado = EditoraViewModelBogus.GerarEditoraViewModel();
+            
             var viewModel = new AtualizarEditoraViewModel()
             {
-                Id = 1,
-                Email = "contato@editora.com",
-                Nome = "Editora",
-                Pais = "Brasil"
+                Id = esperado.Id,
+                Nome = esperado.Nome,
+                Email = esperado.Email,
+                Pais = esperado.Pais
             };
 
             var editora = new Domain.Entities.Editora(viewModel.Id, viewModel.Nome, viewModel.Email,
                 viewModel.Pais);
 
-            var esperado = new EditoraViewModel()
-            {
-                Id = viewModel.Id,
-                Nome = viewModel.Nome,
-                Email = viewModel.Email,
-                Pais = viewModel.Pais
-            };
-            
             _editoraRepository
                 .Setup(x => x.AtualizarEditora(It.IsAny<Domain.Entities.Editora>()))
                 .ReturnsAsync(editora);

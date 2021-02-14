@@ -1,4 +1,4 @@
-﻿using MinhaBiblioteca.Application.Interfaces.Data.Autor;
+﻿using MinhaBiblioteca.Application.Interfaces.Data.Autores;
 
 namespace MinhaBiblioteca.Application.Interfaces.Data
 {

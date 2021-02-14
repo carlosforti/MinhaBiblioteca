@@ -1,9 +1,11 @@
 ﻿using System.Threading.Tasks;
-using AutoMapper;
 using FluentAssertions;
-using MinhaBiblioteca.Application.Interfaces.Data.Autor;
-using MinhaBiblioteca.Application.UseCases.Autor;
+using MinhaBiblioteca.Application.Interfaces.Data.Autores;
+using MinhaBiblioteca.Application.UseCases.Autores;
 using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.UtilTests.Bogus;
+using MinhaBiblioteca.UtilTests.Bogus.Autor;
+using MinhaBiblioteca.UtilTests.Mapeamento;
 using Moq;
 using Xunit;
 
@@ -14,24 +16,24 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autor
         [Fact]
         public async Task DeveInserirAutor_ERetornarIdDiferenteZero()
         {
-            var mapper = AutoMapperTestHelper.Mapper;
+            var mapper = AutoMapperHelper.Mapper;
             var command = new Mock<IAutorCommand>();
+
+            var autorInserido = AutorBogus.GerarAutor();
 
             var viewModel = new InserirAutorViewModel
             {
-                Nome = "Autor",
-                Email = "autor@autor.com",
-                Pais = "Brasil"
+                Nome = autorInserido.Nome,
+                Email = autorInserido.Email,
+                Pais = autorInserido.Pais
             };
-
-            var autorInserido = new Domain.Entities.Autor(1, viewModel.Nome, viewModel.Email, viewModel.Pais);
-
+            
             var esperado = new AutorViewModel
             {
-                Id = 1,
-                Nome = viewModel.Nome,
-                Email = viewModel.Email,
-                Pais = viewModel.Pais
+                Id = autorInserido.Id,
+                Nome = autorInserido.Nome,
+                Email = autorInserido.Email,
+                Pais = autorInserido.Pais
             };
 
             command

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MinhaBiblioteca.Application.UseCases.Editora;
-using MinhaBiblioteca.Application.UseCases.Editora.Interfaces;
+using MinhaBiblioteca.Application.UseCases.Editoras;
+using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
 
 namespace MinhaBiblioteca.Application.Configurations
 {

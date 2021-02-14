@@ -2,9 +2,12 @@
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
-using MinhaBiblioteca.Application.UseCases.Autor;
+using MinhaBiblioteca.Application.UseCases.Autores;
 using MinhaBiblioteca.Application.ViewModels.Autor;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
+using MinhaBiblioteca.UtilTests.Bogus;
+using MinhaBiblioteca.UtilTests.Bogus.Autor;
+using MinhaBiblioteca.UtilTests.Mapeamento;
 using Moq;
 using Xunit;
 
@@ -13,8 +16,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autor
     public class AtualizarAutorUseCaseTest
     {
         private readonly Mock<IAutorRepository> _autorRepository = new();
-        private readonly IMapper _mapper = AutoMapperTestHelper.Mapper;
-        
+        private readonly IMapper _mapper = AutoMapperHelper.Mapper;
+
         [Fact]
         public async Task Executar_DeveRetornarErro_QuandoIdDiferenteDoIdRota()
         {
@@ -39,15 +42,15 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autor
         [Fact]
         public async Task Executar_DeveRetornar_QuandoForSucesso()
         {
+            var esperado = AutorBogus.GerarAutor();
+
             var viewModel = new AtualizarAutorViewModel
             {
-                Id = 1,
-                Nome = "Autor",
-                Email = "email@autor.com",
-                Pais = "Brasil"
+                Id = esperado.Id,
+                Nome = esperado.Nome,
+                Email = esperado.Email,
+                Pais = esperado.Pais
             };
-
-            var esperado = _mapper.Map<Domain.Entities.Autor>(viewModel);
 
             _autorRepository
                 .Setup(x => x.AtualizarAutor(It.IsAny<Domain.Entities.Autor>()))
@@ -58,9 +61,9 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autor
 
             resultadp.Should().BeEquivalentTo(esperado);
             _autorRepository
-                .Verify(x =>x.AtualizarAutor(It.IsAny<Domain.Entities.Autor>()), Times.Once);
+                .Verify(x => x.AtualizarAutor(It.IsAny<Domain.Entities.Autor>()), Times.Once);
         }
-        
+
         private AtualizarAutorUseCase GerarAtualizarAutorUseCase(out INotificador notificador)
         {
             notificador = new Notificador();

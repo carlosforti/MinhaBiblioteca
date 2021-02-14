@@ -1,39 +1,30 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using MinhaBiblioteca.Application.Mapeamentos;
 using MinhaBiblioteca.Application.ViewModels.Autor;
 using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Domain.Entities;
+using MinhaBiblioteca.UtilTests.Bogus.Editora;
+using MinhaBiblioteca.UtilTests.Mapeamento;
 using Xunit;
 
 namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
 {
     public class ViewModelsParaEntidadesProfileTest
     {
-        private readonly IMapper _mapper;
-        
-        public ViewModelsParaEntidadesProfileTest()
-        {
-            var mapperConfiguration = new AutoMapper.MapperConfiguration(
-                options =>
-                {
-                    options.AddProfile(new ViewModelsParaEntidadesProfile());
-                });
-            _mapper = mapperConfiguration.CreateMapper();
-        }
+        private readonly IMapper _mapper = AutoMapperHelper.Mapper;
 
         [Fact]
         public void Mapeamento_DeveMapear_InserirEditoraViewModel_ParaEdtora_ComIdZero()
         {
+            var esperado = EditoraBogus.GerarEditora(0); 
+            
             var inserirEditoraCommand = new InserirEditoraViewModel()
             {
-                Nome = "Editora",
-                Email = "editora@editora.com",
-                Pais = "Brasil"
+                Nome = esperado.Nome,
+                Email = esperado.Email,
+                Pais = esperado.Pais
             };
-            var esperado = new Editora(0, inserirEditoraCommand.Nome, inserirEditoraCommand.Email,
-                inserirEditoraCommand.Pais);
-
+            
             var resultado = _mapper.Map<Editora>(inserirEditoraCommand);
 
             resultado.Should().BeEquivalentTo(esperado);
@@ -43,16 +34,15 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         [Fact]
         public void Mapeamento_DeveMapear_AtualizarEditoraViewModel()
         {
+            var esperado = EditoraBogus.GerarEditora();
+            
             var atualizarEditoraCommand = new AtualizarEditoraViewModel()
             {
-                Id = 1,
-                Nome = "Editora",
-                Email = "editora@editora.com",
-                Pais = "Brasil"
+                Id = esperado.Id,
+                Nome = esperado.Nome,
+                Email = esperado.Email,
+                Pais = esperado.Pais
             };
-
-            var esperado = new Editora(atualizarEditoraCommand.Id, atualizarEditoraCommand.Nome,
-                atualizarEditoraCommand.Email, atualizarEditoraCommand.Pais);
 
             var resultado = _mapper.Map<Editora>(atualizarEditoraCommand);
             

@@ -22,10 +22,10 @@ namespace MinhaBiblioteca.Infra.Shared.Notificacoes
         private readonly List<Notificacao> _notificacoes = new List<Notificacao>();
 
         public IEnumerable<Notificacao> Erros =>
-            _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Erro);
+            _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Erro).AsEnumerable();
 
         public IEnumerable<Notificacao> Avisos =>
-            _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Aviso);
+            _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Aviso).AsEnumerable();
 
         public bool TemErros => _notificacoes.Any(x => x.TipoNotificacao == TipoNotificacao.Erro);
 

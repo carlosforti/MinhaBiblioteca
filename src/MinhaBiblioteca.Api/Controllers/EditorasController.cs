@@ -2,8 +2,7 @@ using System.Net;
 using System.Threading.Tasks;
 using MinhaBiblioteca.Api.Formatter;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MinhaBiblioteca.Application.UseCases.Editora.Interfaces;
+using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
 using MinhaBiblioteca.Application.ViewModels;
 using MinhaBiblioteca.Application.ViewModels.Editora;
 
@@ -16,19 +15,19 @@ namespace MinhaBiblioteca.Api.Controllers
     public class EditorasController : ControllerBase
     {
         private readonly IResponseFormatter _formatter;
-        private readonly ILogger<EditorasController> _logger;
         private readonly IBuscarEditoraPorIdUseCase _buscarEditoraPorIdUseCase;
         private readonly IListarEditorasUseCase _listarEditorasUseCase;
         private readonly IInserirEditoraUseCase _inserirEditoraUseCase;
         private readonly IAtualizarEditoraUseCase _atualizarEditoraUseCase;
         private readonly IExcluirEditoraUseCase _excluirEditoraUseCase;
 
-        public EditorasController(ILogger<EditorasController> logger,
-            IInserirEditoraUseCase inserirEditoraUseCase,
+        public EditorasController(IInserirEditoraUseCase inserirEditoraUseCase,
             IBuscarEditoraPorIdUseCase buscarEditoraPorIdUseCase,
-            IResponseFormatter formatter, IListarEditorasUseCase listarEditorasUseCase, IAtualizarEditoraUseCase atualizarEditoraUseCase, IExcluirEditoraUseCase excluirEditoraUseCase)
+            IResponseFormatter formatter,
+            IListarEditorasUseCase listarEditorasUseCase,
+            IAtualizarEditoraUseCase atualizarEditoraUseCase,
+            IExcluirEditoraUseCase excluirEditoraUseCase)
         {
-            _logger = logger;
             _inserirEditoraUseCase = inserirEditoraUseCase;
             _buscarEditoraPorIdUseCase = buscarEditoraPorIdUseCase;
             _formatter = formatter;
@@ -78,7 +77,7 @@ namespace MinhaBiblioteca.Api.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await _excluirEditoraUseCase.Executar(id);
-            return _formatter.FormatarResposta(TipoRequisicao.Delete, null as BaseViewModel);
+            return _formatter.FormatarResposta(TipoRequisicao.Delete, null);
         }
     }
 }

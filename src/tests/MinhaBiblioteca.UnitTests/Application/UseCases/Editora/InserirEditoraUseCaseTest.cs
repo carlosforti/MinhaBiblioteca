@@ -2,8 +2,7 @@
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
-using MinhaBiblioteca.Application.Interfaces.Data.Editora;
-using MinhaBiblioteca.Application.UseCases.Editora;
+using MinhaBiblioteca.Application.UseCases.Editoras;
 using MinhaBiblioteca.Application.ViewModels.Editora;
 using Moq;
 using Xunit;

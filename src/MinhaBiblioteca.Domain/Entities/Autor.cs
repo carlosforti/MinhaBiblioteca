@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MinhaBiblioteca.Domain.Entities
 {
     public class Autor

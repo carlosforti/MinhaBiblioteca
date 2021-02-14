@@ -4,7 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Application.Interfaces.Data;
-using MinhaBiblioteca.Application.Interfaces.Data.Editora;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using MinhaBiblioteca.Infra.Data.Context;

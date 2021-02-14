@@ -16,9 +16,5 @@
     <ProjectReference Include="..\MinhaBiblioteca.Infra.Shared\MinhaBiblioteca.Infra.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UseCases\Livro" />
-  </ItemGroup>
-
 
 </Project>

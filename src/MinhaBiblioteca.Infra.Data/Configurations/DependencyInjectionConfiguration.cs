@@ -4,7 +4,6 @@ using MinhaBiblioteca.Infra.Data.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinhaBiblioteca.Application.Interfaces.Data;
-using MinhaBiblioteca.Application.Interfaces.Data.Editora;
 
 namespace MinhaBiblioteca.Infra.Data.Configurations
 {
@@ -13,21 +12,28 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
         public static IServiceCollection ConfigurarInfraData(this IServiceCollection services,
             IConfiguration configuration)
         {
-            // services.AddScoped<IEditoraCommand, EditoraRepository>();
-            // services.AddScoped<IEditoraQuery, EditoraRepository>();
             services.AddScoped<IEditoraRepository, EditoraRepository>();
-#if DEBUG
-            services.AddDbContext<BibliotecaContext>(options =>
-            {
-                options.UseInMemoryDatabase(databaseName: "BibliotecaContext");
-            });
-#else
-             var connectionString = configuration.GetConnectionString("BibliotecaContext");
-             services.AddDbContext<BibliotecaContext>(options =>
-             {
-                 options.UseSqlServer(connectionString);
-             });
-#endif
+            services.ConfigurarDbContext(configuration);
+
+            return services;
+        }
+
+        private static IServiceCollection ConfigurarDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            var builder = new DbContextOptionsBuilder();
+
+            if (configuration == null)
+                builder.UseInMemoryDatabase(databaseName: "BibliotecaContext");
+
+            var connectionString = configuration.GetConnectionString("BibliotecaContext");
+            var ambienteProducao = configuration?["Environment"] == "Production";
+
+            if (ambienteProducao)
+                services.AddDbContext<BibliotecaContext>(options =>
+                    builder.UseSqlServer(connectionString));
+            else
+                services.AddDbContext<BibliotecaContext>(options =>
+                    options.UseInMemoryDatabase(databaseName: "BibliotecaContext"));
 
             return services;
         }

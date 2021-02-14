@@ -1,4 +1,4 @@
-﻿using MinhaBiblioteca.Application.Interfaces.Data.Editora;
+﻿using MinhaBiblioteca.Application.Interfaces.Data.Editoras;
 
 namespace MinhaBiblioteca.Application.Interfaces.Data
 {

@@ -219,13 +219,27 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
                     Pais = "Brasil"
                 }
             };
+            
+            var resposta = new Response<IEnumerable<EditoraViewModel>>(editoras, notificador);
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editoras);
             resultado.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeEquivalentTo(editoras);
+                .Which.Value.Should().BeEquivalentTo(resposta);
 
             resultado.Should().BeOfType<OkObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.OK);
+        }
+
+        [Fact]
+        public void FormatarResposta_SemRetorno_TipoRequisicao_GET_Lista()
+        {
+            var notificador = new Notificador();
+            var responseFormatter = new ResponseFormatter(notificador);
+            var editoras = new List<EditoraViewModel>();
+
+            var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editoras);
+            resultado.Should().BeOfType<NoContentResult>()
+                .Which.StatusCode.Should().Be((int) HttpStatusCode.NoContent);
         }
 
         [Fact]
@@ -233,45 +247,47 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
         {
             var notificador = new Notificador();
             var formatter = new ResponseFormatter(notificador);
-            var editora =
-                new EditoraViewModel
-                {
-                    Id = 1,
-                    Nome = "Editora",
-                    Email = "editora@editora.com",
-                    Pais = "Brasil"
-                };
+            var editora = new EditoraViewModel
+            {
+                Id = 1,
+                Nome = "Editora",
+                Email = "editora@editora.com",
+                Pais = "Brasil"
+            };
+
+            var esperado = new Response<EditoraViewModel>(editora, notificador);
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Post, editora);
-            
+
             resultado.Should().BeOfType<CreatedAtRouteResult>()
-                .Which.Value.Should().BeEquivalentTo(editora);
-            
+                .Which.Value.Should().BeEquivalentTo(esperado);
+
             resultado.Should().BeOfType<CreatedAtRouteResult>()
                 .Which.RouteName.Should().Be("Get");
 
             resultado.Should().BeOfType<CreatedAtRouteResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Created);
         }
-        
+
         [Fact]
         public void FormatarResposta_TipoRequisicao_PUT()
         {
             var notificador = new Notificador();
             var formatter = new ResponseFormatter(notificador);
-            var editora =
-                new EditoraViewModel
-                {
-                    Id = 1,
-                    Nome = "Editora",
-                    Email = "editora@editora.com",
-                    Pais = "Brasil"
-                };
+            var editora = new EditoraViewModel
+            {
+                Id = 1,
+                Nome = "Editora",
+                Email = "editora@editora.com",
+                Pais = "Brasil"
+            };
+
+            var esperado = new Response<EditoraViewModel>(editora, notificador);
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Put, editora);
-            
+
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
-                .Which.Value.Should().BeEquivalentTo(editora);
+                .Which.Value.Should().BeEquivalentTo(esperado);
 
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
                 .Which.RouteName.Should().Be("Get");
@@ -279,49 +295,49 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Accepted);
         }
-        
+
         [Fact]
         public void FormatarResposta_TipoRequisicao_PATCH()
         {
             var notificador = new Notificador();
             var formatter = new ResponseFormatter(notificador);
-            var editora =
-                new EditoraViewModel
-                {
-                    Id = 1,
-                    Nome = "Editora",
-                    Email = "editora@editora.com",
-                    Pais = "Brasil"
-                };
+            var editora = new EditoraViewModel
+            {
+                Id = 1,
+                Nome = "Editora",
+                Email = "editora@editora.com",
+                Pais = "Brasil"
+            };
+
+            var resposta = new Response<EditoraViewModel>(editora, notificador);
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Patch, editora);
-            
+
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
-                .Which.Value.Should().BeEquivalentTo(editora);
-            
+                .Which.Value.Should().BeEquivalentTo(resposta);
+
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
                 .Which.RouteName.Should().Be("Get");
 
             resultado.Should().BeOfType<AcceptedAtRouteResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Accepted);
         }
-        
+
         [Fact]
         public void FormatarResposta_TipoRequisicao_DELETE()
         {
             var notificador = new Notificador();
             var formatter = new ResponseFormatter(notificador);
-            var editora =
-                new EditoraViewModel
-                {
-                    Id = 1,
-                    Nome = "Editora",
-                    Email = "editora@editora.com",
-                    Pais = "Brasil"
-                };
+            var editora = new EditoraViewModel
+            {
+                Id = 1,
+                Nome = "Editora",
+                Email = "editora@editora.com",
+                Pais = "Brasil"
+            };
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Delete, editora);
-            
+
             resultado.Should().BeOfType<NoContentResult>();
         }
     }

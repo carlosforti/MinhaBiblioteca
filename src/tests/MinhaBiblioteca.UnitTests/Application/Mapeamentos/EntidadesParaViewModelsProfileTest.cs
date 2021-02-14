@@ -1,25 +1,15 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using MinhaBiblioteca.Application.Mapeamentos;
 using MinhaBiblioteca.Application.ViewModels.Editora;
 using MinhaBiblioteca.Domain.Entities;
+using MinhaBiblioteca.UtilTests.Mapeamento;
 using Xunit;
 
 namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
 {
     public class EntidadesParaViewModelsProfileTest
     {
-        private readonly IMapper _mapper;
-
-        public EntidadesParaViewModelsProfileTest()
-        {
-            var mapperConfiguration = new MapperConfiguration(options =>
-            {
-                options.AddProfile(new EntidadesParaViewModelsProfile());
-            });
-
-            _mapper = mapperConfiguration.CreateMapper();
-        }
+        private readonly IMapper _mapper = AutoMapperHelper.Mapper;
 
         [Fact]
         public void Mapeamento_DeveMapear_Editora_ParaEditoraViewModel()

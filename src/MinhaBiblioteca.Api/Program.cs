@@ -2,7 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace MinhaBiblioteca.Api
+namespace MinhaBiblioteca.API
 {
     [ExcludeFromCodeCoverage]
     public class Program

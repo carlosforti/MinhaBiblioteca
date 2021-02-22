@@ -13,7 +13,7 @@ namespace MinhaBiblioteca.UnitTests.Infra.Shared.Notificacoes
             var notificador = new Notificador();
             notificador.AdicionarErro("erro", "mensagem");
 
-            notificador.TemErros.Should().BeTrue();
+            notificador.ExistemErros.Should().BeTrue();
             notificador.Erros
                 .Should()
                 .ContainEquivalentOf(new Notificacao(TipoNotificacao.Erro, "erro", "mensagem"));
@@ -25,7 +25,7 @@ namespace MinhaBiblioteca.UnitTests.Infra.Shared.Notificacoes
             var notificador = new Notificador();
             notificador.AdicionarAviso("aviso", "mensagem");
 
-            notificador.TemErros.Should().BeFalse();
+            notificador.ExistemErros.Should().BeFalse();
             notificador.Avisos
                 .Should()
                 .ContainEquivalentOf(new Notificacao(TipoNotificacao.Aviso, "aviso", "mensagem"));
@@ -37,7 +37,7 @@ namespace MinhaBiblioteca.UnitTests.Infra.Shared.Notificacoes
             var notificador = new Notificador();
             notificador.AdicionarErro("erro", "mensagem", HttpStatusCode.NotFound);
 
-            notificador.TemErros.Should().BeTrue();
+            notificador.ExistemErros.Should().BeTrue();
             notificador.Erros
                 .Should()
                 .ContainEquivalentOf(new Notificacao(TipoNotificacao.Erro, "erro", "mensagem"));

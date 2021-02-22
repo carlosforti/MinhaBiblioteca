@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 
 namespace MinhaBiblioteca.Application.UseCases.Editoras
 {

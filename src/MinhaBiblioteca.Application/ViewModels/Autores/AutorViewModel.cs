@@ -1,4 +1,4 @@
-﻿namespace MinhaBiblioteca.Application.ViewModels.Autor
+﻿namespace MinhaBiblioteca.Application.ViewModels.Autores
 {
     public class AutorViewModel: BaseViewModel
     {

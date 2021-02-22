@@ -2,8 +2,8 @@
 using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using MinhaBiblioteca.Api.Formatter;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.API.Formatter;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using Xunit;
 
@@ -188,13 +188,14 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
         {
             var notificador = new Notificador();
             var responseFormatter = new ResponseFormatter(notificador);
-            var editora = new EditoraViewModel
-            {
-                Id = 1,
-                Nome = "Editora",
-                Email = "editora@editora.com",
-                Pais = "Brasil"
-            };
+            var editora = new Response<EditoraViewModel>(
+                new EditoraViewModel
+                {
+                    Id = 1,
+                    Nome = "Editora",
+                    Email = "editora@editora.com",
+                    Pais = "Brasil"
+                }, notificador);
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
             resultado.Should().BeOfType<OkObjectResult>()
@@ -219,7 +220,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
                     Pais = "Brasil"
                 }
             };
-            
+
             var resposta = new Response<IEnumerable<EditoraViewModel>>(editoras, notificador);
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editoras);

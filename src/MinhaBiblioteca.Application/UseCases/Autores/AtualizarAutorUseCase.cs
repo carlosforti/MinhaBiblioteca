@@ -2,7 +2,7 @@
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.Application.ViewModels.Autores;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 

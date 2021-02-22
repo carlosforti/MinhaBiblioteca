@@ -7,6 +7,6 @@ namespace MinhaBiblioteca.Application.Interfaces.Data.Editoras
     public interface IEditoraQuery
     {
         Task<IEnumerable<Editora>> ListarEditoras();
-        Task<Editora> BuscarEditora(int id);
+        Task<Editora> BuscarEditoraPorId(int id);
     }
 }

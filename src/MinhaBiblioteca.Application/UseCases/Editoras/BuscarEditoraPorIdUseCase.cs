@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 
 namespace MinhaBiblioteca.Application.UseCases.Editoras
@@ -22,8 +22,8 @@ namespace MinhaBiblioteca.Application.UseCases.Editoras
 
         public async Task<EditoraViewModel> Executar(int id)
         {
-            var editora = await _editoraRepository.BuscarEditora(id);
-            return _notificador.TemErros ? null : _mapper.Map<EditoraViewModel>(editora);
+            var editora = await _editoraRepository.BuscarEditoraPorId(id);
+            return _notificador.ExistemErros ? null : _mapper.Map<EditoraViewModel>(editora);
         }
     }
 }

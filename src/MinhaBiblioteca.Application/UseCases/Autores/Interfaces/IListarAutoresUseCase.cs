@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.Application.ViewModels.Autores;
 
 namespace MinhaBiblioteca.Application.UseCases.Autores.Interfaces
 {

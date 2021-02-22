@@ -43,7 +43,8 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
-                _context.Entry(editora).State = EntityState.Modified;
+                // _context.Entry(editora).State = EntityState.Modified;
+                _context.Update(editora);
                 await _context.SaveChangesAsync();
                 return editora;
             }
@@ -56,7 +57,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
 
         public async Task ExcluirEditora(int id)
         {
-            var editora = await BuscarEditora(id);
+            var editora = await BuscarEditoraPorId(id);
             if (editora == null)
             {
                 _notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NotFound);
@@ -72,7 +73,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             return await Task.FromResult(_context.Editoras.AsNoTracking());
         }
 
-        public async Task<Editora> BuscarEditora(int id)
+        public async Task<Editora> BuscarEditoraPorId(int id)
         {
             try
             {

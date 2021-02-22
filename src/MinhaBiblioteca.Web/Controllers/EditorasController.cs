@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MinhaBiblioteca.Application.Interfaces.Data.Editora;
+using MinhaBiblioteca.Application.Interfaces.Data.Editoras;
 
 namespace MinhaBiblioteca.Web.Controllers
 {

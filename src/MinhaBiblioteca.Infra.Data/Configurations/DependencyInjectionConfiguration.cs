@@ -13,12 +13,15 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
             IConfiguration configuration)
         {
             services.AddScoped<IEditoraRepository, EditoraRepository>();
+            services.AddScoped<IAutorRepository, AutorRepository>();
+            services.AddScoped<ILivroRepository, LivroRepository>();
             services.ConfigurarDbContext(configuration);
 
             return services;
         }
 
-        private static IServiceCollection ConfigurarDbContext(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection ConfigurarDbContext(this IServiceCollection services,
+            IConfiguration configuration)
         {
             var builder = new DbContextOptionsBuilder();
 

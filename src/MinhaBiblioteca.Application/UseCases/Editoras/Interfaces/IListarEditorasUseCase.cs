@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 
 namespace MinhaBiblioteca.Application.UseCases.Editoras.Interfaces
 {

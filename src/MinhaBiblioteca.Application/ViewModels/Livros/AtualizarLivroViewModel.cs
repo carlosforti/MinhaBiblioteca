@@ -1,7 +1,4 @@
-﻿using MinhaBiblioteca.Application.ViewModels.Autor;
-using MinhaBiblioteca.Application.ViewModels.Editora;
-
-namespace MinhaBiblioteca.Application.ViewModels.Livros
+﻿namespace MinhaBiblioteca.Application.ViewModels.Livros
 {
     public class AtualizarLivroViewModel
     {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using FluentAssertions;
-using MinhaBiblioteca.Application.ViewModels.Autor;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Autores;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Domain.Entities;
-using MinhaBiblioteca.UtilTests.Bogus.Editora;
+using MinhaBiblioteca.UtilTests.Bogus.Editoras;
 using MinhaBiblioteca.UtilTests.Mapeamento;
 using Xunit;
 
@@ -18,7 +18,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         {
             var esperado = EditoraBogus.GerarEditora(0); 
             
-            var inserirEditoraCommand = new InserirEditoraViewModel()
+            var inserirEditoraCommand = new InserirEditoraViewModel
             {
                 Nome = esperado.Nome,
                 Email = esperado.Email,
@@ -36,7 +36,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         {
             var esperado = EditoraBogus.GerarEditora();
             
-            var atualizarEditoraCommand = new AtualizarEditoraViewModel()
+            var atualizarEditoraCommand = new AtualizarEditoraViewModel
             {
                 Id = esperado.Id,
                 Nome = esperado.Nome,

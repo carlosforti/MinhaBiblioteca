@@ -27,8 +27,4 @@
     <ProjectReference Include="..\MinhaBiblioteca.UtilTests\MinhaBiblioteca.UtilTests.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Application" />
-  </ItemGroup>
-
 </Project>

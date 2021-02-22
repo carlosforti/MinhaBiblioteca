@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.TagHelpers.Cache;
-using MinhaBiblioteca.Api.Controllers;
-using MinhaBiblioteca.Api.Formatter;
+using MinhaBiblioteca.API.Controllers;
+using MinhaBiblioteca.API.Formatter;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
-using MinhaBiblioteca.UtilTests.Bogus.Editora;
+using MinhaBiblioteca.UtilTests.Bogus.Editoras;
 using Moq;
 using Xunit;
 
@@ -120,7 +118,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<int>(), It.IsAny<AtualizarEditoraViewModel>()))
                 .ReturnsAsync(editora);
 
-            var resultado =await _controller.Patch(editora.Id, entrada);
+            var resultado =await _controller.Put(editora.Id, entrada);
 
             ((AcceptedAtRouteResult) resultado).Value
                 .Should().BeEquivalentTo(((AcceptedAtRouteResult) esperado).Value);

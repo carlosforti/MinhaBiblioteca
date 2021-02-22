@@ -1,4 +1,4 @@
-namespace MinhaBiblioteca.Application.ViewModels.Editora
+namespace MinhaBiblioteca.Application.ViewModels.Editoras
 {
     public class InserirEditoraViewModel
     {

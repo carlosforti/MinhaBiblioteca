@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Editora;
+using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Application.UseCases.Editoras

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.Application.ViewModels.Autores;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 
 namespace MinhaBiblioteca.Application.UseCases.Autores
@@ -24,7 +24,7 @@ namespace MinhaBiblioteca.Application.UseCases.Autores
         public async Task<IEnumerable<AutorResumidoViewModel>> Executar()
         {
             var autores = await _autorRepository.ListarAutores();
-            return _notificador.TemErros
+            return _notificador.ExistemErros
                 ? new List<AutorResumidoViewModel>()
                 : _mapper.Map<IEnumerable<AutorResumidoViewModel>>(autores);
         }

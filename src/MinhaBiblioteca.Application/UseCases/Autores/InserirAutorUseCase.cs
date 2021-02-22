@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using MinhaBiblioteca.Application.Interfaces.Data.Autores;
+using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Autor;
+using MinhaBiblioteca.Application.ViewModels.Autores;
 using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Application.UseCases.Autores
@@ -10,18 +10,18 @@ namespace MinhaBiblioteca.Application.UseCases.Autores
     public class InserirAutorUseCase: IInserirAutorUseCase
     {
         private readonly IMapper _mapper;
-        private readonly IAutorCommand _autorCommand;
+        private readonly IAutorRepository _autorRepository;
 
-        public InserirAutorUseCase(IMapper mapper, IAutorCommand autorCommand)
+        public InserirAutorUseCase(IMapper mapper, IAutorRepository autorRepository)
         {
             _mapper = mapper;
-            _autorCommand = autorCommand;
+            _autorRepository = autorRepository;
         }
 
         public async Task<AutorViewModel> Executar(InserirAutorViewModel autorViewModel)
         {
             var autor = _mapper.Map<Autor>(autorViewModel);
-            autor = await _autorCommand.InserirAutor(autor);
+            autor = await _autorRepository.InserirAutor(autor);
             return _mapper.Map<AutorViewModel>(autor);
         }
     }

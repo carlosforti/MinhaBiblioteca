@@ -1,4 +1,4 @@
-[![.NET](https://github.com/carlosforti/MinhaBiblioteca/actions/workflows/dotnet-build-test.yml/badge.svg?branch=carlosforti-patch-1)](https://github.com/carlosforti/MinhaBiblioteca/actions/workflows/dotnet-build-test.yml)
+[![.NET](https://github.com/carlosforti/MinhaBiblioteca/actions/workflows/dotnet-build-test.yml/badge.svg?branch=main)](https://github.com/carlosforti/MinhaBiblioteca/actions/workflows/dotnet-build-test.yml)
 
 # MinhaBiblioteca
 

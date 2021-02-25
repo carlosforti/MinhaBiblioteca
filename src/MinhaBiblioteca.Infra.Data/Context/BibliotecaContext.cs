@@ -1,8 +1,8 @@
 using System.Reflection;
 using System.Threading.Tasks;
-using MinhaBiblioteca.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Infra.Data.Context
 {

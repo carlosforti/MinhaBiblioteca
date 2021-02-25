@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Security.Authentication.ExtendedProtection;
-
 namespace MinhaBiblioteca.Domain.Entities
 {
     public class Editora

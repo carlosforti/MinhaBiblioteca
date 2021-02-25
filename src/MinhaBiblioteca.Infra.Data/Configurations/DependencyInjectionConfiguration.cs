@@ -1,35 +1,43 @@
-using MinhaBiblioteca.Application.Interfaces.Data;
+using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Infra.Data.Context;
 using MinhaBiblioteca.Infra.Data.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MinhaBiblioteca.Application.Interfaces.Data;
 
 namespace MinhaBiblioteca.Infra.Data.Configurations
 {
     public static class DependencyInjectionConfiguration
     {
-        public static IServiceCollection AdicionarCommandsQueries(this IServiceCollection services)
+        public static IServiceCollection ConfigurarInfraData(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            services.AddScoped<IEditoraCommand, EditoraRepository>();
-            services.AddScoped<IEditoraQuery, EditoraRepository>();
+            services.AddScoped<IEditoraRepository, EditoraRepository>();
+            services.AddScoped<IAutorRepository, AutorRepository>();
+            services.AddScoped<ILivroRepository, LivroRepository>();
+            services.ConfigurarDbContext(configuration);
 
             return services;
         }
 
-        public static IServiceCollection AdicionarBibliotecaContext(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection ConfigurarDbContext(this IServiceCollection services,
+            IConfiguration configuration)
         {
-            // var connectionString =  configuration.GetConnectionString("BibliotecaContext");
-            // services.AddDbContext<BibliotecaContext>(options =>
-            // {
-            //     options.UseSqlServer(connectionString);
-            // });
+            var builder = new DbContextOptionsBuilder();
 
-            services.AddDbContext<BibliotecaContext>(options =>
-            {
-                options.UseInMemoryDatabase(databaseName: "BibliotecaContext");
-            });
-            
+            if (configuration == null)
+                builder.UseInMemoryDatabase(databaseName: "BibliotecaContext");
+
+            var connectionString = configuration.GetConnectionString("BibliotecaContext");
+            var ambienteProducao = configuration?["Environment"] == "Production";
+
+            if (ambienteProducao)
+                services.AddDbContext<BibliotecaContext>(options =>
+                    builder.UseSqlServer(connectionString));
+            else
+                services.AddDbContext<BibliotecaContext>(options =>
+                    options.UseInMemoryDatabase(databaseName: "BibliotecaContext"));
+
             return services;
         }
     }

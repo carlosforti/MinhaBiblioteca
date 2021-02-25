@@ -1,19 +1,20 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 using MinhaBiblioteca.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
 {
-    public class EditoraRepository : IEditoraCommand, IEditoraQuery
+    public class EditoraRepository : IEditoraRepository
     {
+        private const string NomeEntidade = "Editora";
+        private const string EditoraNaoEncontrada = "Editora não encontrada";
+        
         private readonly BibliotecaContext _context;
         private readonly INotificador _notifier;
 
@@ -33,7 +34,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             }
             catch (Exception e)
             {
-                _notifier.AdicionarErro("editora", e.Message, HttpStatusCode.InternalServerError);
+                _notifier.AdicionarErro(NomeEntidade, e.Message, HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -42,23 +43,24 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
-                _context.Entry(editora).State = EntityState.Modified;
+                // _context.Entry(editora).State = EntityState.Modified;
+                _context.Update(editora);
                 await _context.SaveChangesAsync();
                 return editora;
             }
             catch (Exception e)
             {
-                _notifier.AdicionarErro("editora", e.Message, HttpStatusCode.InternalServerError);
+                _notifier.AdicionarErro(NomeEntidade, e.Message, HttpStatusCode.InternalServerError);
                 return null;
             }
         }
 
         public async Task ExcluirEditora(int id)
         {
-            var editora = await BuscarEditora(id);
+            var editora = await BuscarEditoraPorId(id);
             if (editora == null)
             {
-                _notifier.AdicionarErro("Editora", "Editora não encontrada", HttpStatusCode.NotFound);
+                _notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NotFound);
                 return;
             }
 
@@ -66,18 +68,18 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IQueryable<Editora>> ListarEditoras()
+        public async Task<IEnumerable<Editora>> ListarEditoras()
         {
-            return await Task.FromResult(_context.Editoras.AsNoTracking().AsQueryable());
+            return await Task.FromResult(_context.Editoras.AsNoTracking());
         }
 
-        public async Task<Editora> BuscarEditora(int id)
+        public async Task<Editora> BuscarEditoraPorId(int id)
         {
             try
             {
                 var editora = await _context.Editoras.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 if (editora == null)
-                    _notifier.AdicionarErro("editora", "Editora não encontrada", HttpStatusCode.NoContent);
+                    _notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NoContent);
             
                 return editora;
             }

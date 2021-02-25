@@ -1,6 +1,6 @@
-using MinhaBiblioteca.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MinhaBiblioteca.Domain.Entities;
 
 namespace MinhaBiblioteca.Infra.Data.Context.Configurations
 {

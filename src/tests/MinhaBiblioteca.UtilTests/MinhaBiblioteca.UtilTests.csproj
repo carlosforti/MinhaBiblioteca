@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\MinhaBiblioteca.Application\MinhaBiblioteca.Application.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Bogus" Version="33.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Bogus\Livros\" />
+    </ItemGroup>
+
+</Project>

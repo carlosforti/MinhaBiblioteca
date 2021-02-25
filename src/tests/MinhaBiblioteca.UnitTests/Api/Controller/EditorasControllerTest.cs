@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -46,16 +47,17 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         public async Task GET_DeveRetornarItemUnico()
         {
             var editoraViewModel = EditoraViewModelBogus.GerarEditoraViewModel(1);
-            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, editoraViewModel);
+            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, editoraViewModel) as OkObjectResult;
 
             _buscarEditoraPorIdUseCase
                 .Setup(x => x.Executar(It.IsAny<int>()))
                 .ReturnsAsync(editoraViewModel);
 
-            var resultado = await _controller.GetById(1);
+            var resultado = (await _controller.GetById(1)) as OkObjectResult;
 
-            (resultado as Response<EditoraViewModel>)?.Retorno
-                .Should().BeEquivalentTo((esperado as Response<EditoraViewModel>)?.Retorno);
+            (resultado.Value as EditoraViewModel).Should()
+                .BeEquivalentTo((esperado.Value as EditoraViewModel));
+            _buscarEditoraPorIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
         }
 
         [Fact]
@@ -65,23 +67,24 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .GerarEditorasResumidasViewModel(3)
                 .ToList();
 
-            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, editorasViewModel);
+            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, editorasViewModel) as OkObjectResult;
 
             _listarEditorasUseCase
                 .Setup(x => x.Executar())
                 .ReturnsAsync(editorasViewModel);
 
-            var resultaddo = await _controller.Get();
-
-            ((OkObjectResult) resultaddo).Value
-                .Should().BeEquivalentTo(((OkObjectResult) esperado).Value);
+            var resultado = await _controller.Get() as OkObjectResult;
+            
+            (resultado.Value as Response<IEnumerable<EditoraResumidaViewModel>>)
+                .Should().BeEquivalentTo(esperado.Value as Response<IEnumerable<EditoraResumidaViewModel>>);
+            _listarEditorasUseCase.Verify(x=>x.Executar(), Times.Once);
         }
 
         [Fact]
         public async Task POST_DeveExecutar()
         {
             var editora = EditoraViewModelBogus.GerarEditoraViewModel();
-            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Post, editora);
+            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Post, editora) as CreatedAtRouteResult;
 
             var entrada = new InserirEditoraViewModel
             {
@@ -94,10 +97,13 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<InserirEditoraViewModel>()))
                 .ReturnsAsync(editora);
 
-            var resultado = await _controller.Post(entrada);
+            var resultado = (await _controller.Post(entrada)) as CreatedAtRouteResult;
             
-            ((CreatedAtRouteResult) resultado).Value
-                .Should().BeEquivalentTo(((CreatedAtRouteResult) esperado).Value);
+            (resultado.Value as Response<EditoraViewModel>)
+                .Should().BeEquivalentTo(esperado.Value as EditoraViewModel);
+            _inserirEditoraUseCase
+                .Verify(x => x.Executar(It.IsAny<InserirEditoraViewModel>()), 
+                    Times.Once);
         }
 
         [Fact]
@@ -115,13 +121,17 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             };
 
             _atualizarEditorUseCase
-                .Setup(x => x.Executar(It.IsAny<int>(), It.IsAny<AtualizarEditoraViewModel>()))
+                .Setup(x => x.Executar(It.IsAny<int>(), 
+                    It.IsAny<AtualizarEditoraViewModel>()))
                 .ReturnsAsync(editora);
 
             var resultado =await _controller.Put(editora.Id, entrada);
 
             ((AcceptedAtRouteResult) resultado).Value
                 .Should().BeEquivalentTo(((AcceptedAtRouteResult) esperado).Value);
+            _atualizarEditorUseCase
+                .Verify(x=>x.Executar(It.IsAny<int>(), 
+                    It.IsAny<AtualizarEditoraViewModel>()), Times.Once);
         }
         
         [Fact]

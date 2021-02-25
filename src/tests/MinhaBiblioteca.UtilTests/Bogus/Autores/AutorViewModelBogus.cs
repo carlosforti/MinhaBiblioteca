@@ -36,5 +36,15 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Autores
         {
             return autores.Select(ConverterDeAutor);
         }
+
+        public static AutorResumidoViewModel GerarAutorResumidoViewModel()
+        {
+            var autor = GerarAutorViewModel();
+            return new AutorResumidoViewModel
+            {
+                Id = autor.Id,
+                Nome = autor.Nome
+            };
+        }
     }
 }

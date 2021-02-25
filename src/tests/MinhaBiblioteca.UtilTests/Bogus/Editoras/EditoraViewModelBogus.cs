@@ -38,5 +38,15 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Editoras
                 Pais = editora.Pais
             };
         }
+
+        public static EditoraResumidaViewModel GerarEditoraResumidaViewModel()
+        {
+            var editora = GerarEditoraViewModel();
+            return new EditoraResumidaViewModel
+            {
+                Id = editora.Id,
+                Nome = editora.Nome
+            };
+        }
     }
 }

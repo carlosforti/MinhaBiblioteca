@@ -23,14 +23,13 @@ namespace MinhaBiblioteca.API.Formatter
                 .Concat(notificador.Avisos)
                 .ToList();
 
-            //TODO: Analisar porque nao passa aqui
             notificacoes.ForEach(notificacao => { AdicionarMensagem(notificacao.Propriedade, notificacao.Mensagem); });
         }
 
         private void AdicionarMensagem(string propriedade, string mensagem)
         {
             if (!_mensagens.ContainsKey(propriedade))
-                _mensagens.Add(propriedade, new List<string>() {mensagem});
+                _mensagens.Add(propriedade, new List<string> {mensagem});
 
             _mensagens[propriedade].Add(mensagem);
         }

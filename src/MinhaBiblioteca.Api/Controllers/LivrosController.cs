@@ -46,7 +46,7 @@ namespace MinhaBiblioteca.API.Controllers
         public async Task<IActionResult> Get()
         {
             var editoras = await _listarLivrosUseCase.Executar();
-            return _responseFormatter.FormatarResposta(TipoRequisicao.Get, editoras);
+            return new OkObjectResult(editoras);
         }
 
         /// <summary>

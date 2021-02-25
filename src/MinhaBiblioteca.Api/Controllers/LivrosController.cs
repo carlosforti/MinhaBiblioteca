@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -43,10 +44,10 @@ namespace MinhaBiblioteca.API.Controllers
         [ProducesResponseType(typeof(Response<IEnumerable<LivroResumidoViewModel>>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesErrorResponseType(typeof(void))]
-        public async Task<IActionResult> Get()
+        public async Task<IEnumerable<LivroResumidoViewModel>> Get()
         {
-            var editoras = await _listarLivrosUseCase.Executar();
-            return new OkObjectResult(editoras);
+            var livros = await _listarLivrosUseCase.Executar();
+            return livros;
         }
 
         /// <summary>

@@ -188,18 +188,19 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
         {
             var notificador = new Notificador();
             var responseFormatter = new ResponseFormatter(notificador);
-            var editora = new Response<EditoraViewModel>(
-                new EditoraViewModel
-                {
-                    Id = 1,
-                    Nome = "Editora",
-                    Email = "editora@editora.com",
-                    Pais = "Brasil"
-                }, notificador);
+            var editora = new EditoraViewModel
+            {
+                Id = 1,
+                Nome = "Editora",
+                Email = "editora@editora.com",
+                Pais = "Brasil"
+            };
+            var esperado = new Response<EditoraViewModel>(editora, notificador);
+                
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
             resultado.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeEquivalentTo(editora);
+                .Which.Value.Should().BeEquivalentTo(esperado);
 
             resultado.Should().BeOfType<OkObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.OK);

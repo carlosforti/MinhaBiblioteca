@@ -45,7 +45,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<int>()))
                 .ReturnsAsync(autorViewModel);
 
-            var resultado = await controller.GetById(1);
+            var resultado = await controller.Get(1);
 
             ((OkObjectResult) resultado).Value
                 .Should().BeEquivalentTo(((OkObjectResult) esperado).Value);
@@ -66,7 +66,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar())
                 .ReturnsAsync(autoresViewModel);
 
-            var resultado = await controller.Get();
+            var resultado = await controller.GetAll();
 
             ((OkObjectResult) resultado).Value
                 .Should().BeEquivalentTo(((OkObjectResult) esperado).Value);
@@ -92,8 +92,8 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
 
             var resultado = await controller.Post(entrada);
 
-            ((CreatedAtRouteResult) resultado).Value
-                .Should().BeEquivalentTo(((CreatedAtRouteResult) esperado).Value);
+            ((CreatedResult) resultado).Value
+                .Should().BeEquivalentTo(((CreatedResult) esperado).Value);
         }
 
         [Fact]
@@ -117,8 +117,8 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
 
             var resultado = await controller.Put(autor.Id, entrada);
 
-            ((AcceptedAtRouteResult) resultado).Value
-                .Should().BeEquivalentTo(((AcceptedAtRouteResult) esperado).Value);
+            ((AcceptedResult) resultado).Value
+                .Should().BeEquivalentTo(((AcceptedResult) esperado).Value);
         }
 
         [Fact]

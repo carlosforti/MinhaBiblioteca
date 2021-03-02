@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MinhaBiblioteca.API.Formatter;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
 using MinhaBiblioteca.Application.ViewModels.Editoras;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace MinhaBiblioteca.API.Controllers
 {
@@ -43,10 +43,10 @@ namespace MinhaBiblioteca.API.Controllers
         /// </summary>
         /// <returns>Lista de editoras cadastradas</returns>
         [HttpGet(Order = 1)]
-        [ProducesResponseType(typeof(Response<IEnumerable<EditoraResumidaViewModel>>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(Response<IEnumerable<EditoraResumidaViewModel>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesErrorResponseType(typeof(void))]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var editoras = await _listarEditorasUseCase.Executar();
             return _formatter.FormatarResposta(TipoRequisicao.Get, editoras);
@@ -57,10 +57,10 @@ namespace MinhaBiblioteca.API.Controllers
         /// </summary>
         /// <param name="id">Id da editora</param>
         /// <returns>Editora com o Id informado</returns>
-        [HttpGet("{id}", Name = "Get", Order = 2)]
-        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id}", Order = 2)]
+        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        public async Task<IActionResult> Get(int id)
         {
             var editora = await _buscarEditoraPorIdUseCase.Executar(id);
             return _formatter.FormatarResposta(TipoRequisicao.Get, editora);
@@ -72,8 +72,8 @@ namespace MinhaBiblioteca.API.Controllers
         /// <param name="viewModel">Dados da editora a ser inserida</param>
         /// <returns>Editora inserida com o Id criado para ela</returns>
         [HttpPost(Order = 3)]
-        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int) HttpStatusCode.Created)]
-        [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.Created)]
+        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] InserirEditoraViewModel viewModel)
         {
             var editora = await _inserirEditoraUseCase.Executar(viewModel);
@@ -81,9 +81,9 @@ namespace MinhaBiblioteca.API.Controllers
         }
 
         [HttpPut("{id}", Order = 4)]
-        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int) HttpStatusCode.Accepted)]
-        [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.Accepted)]
+        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Put(int id, [FromBody] AtualizarEditoraViewModel viewModel)
         {
             var editora = await _atualizarEditoraUseCase.Executar(id, viewModel);
@@ -96,8 +96,8 @@ namespace MinhaBiblioteca.API.Controllers
         /// <param name="id">Id da editora a ser excluída</param>
         /// <returns>Resposta da exclusão</returns>
         [HttpDelete("{id}", Order = 5)]
-        [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
             await _excluirEditoraUseCase.Executar(id);

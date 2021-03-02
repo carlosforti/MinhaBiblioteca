@@ -57,7 +57,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<int>()))
                 .ReturnsAsync(livroViewModel);
 
-            var resultado = (await _controller.GetById(1)) as OkObjectResult;
+            var resultado = (await _controller.Get(1)) as OkObjectResult;
 
             (resultado.Value as EditoraViewModel).Should()
                 .BeEquivalentTo((esperado.Value as EditoraViewModel));
@@ -89,7 +89,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         {
             var livroViewModel = LivroViewModelBogus.GerarLivroViewModel();
             var esperado =
-                _responseFormatter.FormatarResposta(TipoRequisicao.Post, livroViewModel) as CreatedAtRouteResult;
+                _responseFormatter.FormatarResposta(TipoRequisicao.Post, livroViewModel) as CreatedResult;
 
             var entrada = new InserirLivroViewModel
             {
@@ -103,7 +103,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<InserirLivroViewModel>()))
                 .ReturnsAsync(livroViewModel);
 
-            var resultado = (await _controller.Post(entrada)) as CreatedAtRouteResult;
+            var resultado = (await _controller.Post(entrada)) as CreatedResult;
 
             (resultado.Value as Response<EditoraViewModel>)
                 .Should().BeEquivalentTo(esperado.Value as EditoraViewModel);
@@ -134,8 +134,8 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
 
             var resultado = await _controller.Put(livroViewModel.Id, entrada);
 
-            ((AcceptedAtRouteResult) resultado).Value
-                .Should().BeEquivalentTo(((AcceptedAtRouteResult) esperado).Value);
+            ((AcceptedResult) resultado).Value
+                .Should().BeEquivalentTo(((AcceptedResult) esperado).Value);
             _atualizarLivroUseCase
                 .Verify(x => x.Executar(It.IsAny<int>(),
                     It.IsAny<AtualizarLivroViewModel>()), Times.Once);

@@ -1,12 +1,13 @@
-using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
-using MinhaBiblioteca.Application.ViewModels.Livros;
 using MinhaBiblioteca.Application.UseCases.Livros.Interfaces;
+using MinhaBiblioteca.Application.ViewModels.Livros;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace MinhaBiblioteca.Application.UseCases.Livros
 {
@@ -34,9 +35,13 @@ namespace MinhaBiblioteca.Application.UseCases.Livros
         public async Task<LivroViewModel> Executar(InserirLivroViewModel livroViewModel)
         {
             var editora = await _buscarEditoraUseCase.Executar(livroViewModel.EditoraId);
-            var autor =await  _buscarAutorUseCase.Executar(livroViewModel.AutorId);
-            if (_notificador.ExistemErros) return null;
-            
+            var autor = await _buscarAutorUseCase.Executar(livroViewModel.AutorId);
+            if (_notificador.ExistemErros)
+            {
+                _notificador.DefinirStatusCode(HttpStatusCode.BadRequest);
+                return null;
+            }
+
             var livro = _mapper.Map<Livro>((livroViewModel, editora, autor));
             livro = await _livroRepository.InserirLivro(livro);
 

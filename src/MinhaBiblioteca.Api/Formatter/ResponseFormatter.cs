@@ -22,7 +22,7 @@ namespace MinhaBiblioteca.API.Formatter
             {
                 HttpStatusCode.NoContent => new NoContentResult(),
                 HttpStatusCode.NotFound => new NotFoundResult(),
-                HttpStatusCode.InternalServerError =>  new StatusCodeResult((int) HttpStatusCode.InternalServerError),
+                HttpStatusCode.InternalServerError => new StatusCodeResult((int)HttpStatusCode.InternalServerError),
                 _ => new BadRequestObjectResult(_notificador.Erros)
             };
         }
@@ -39,10 +39,10 @@ namespace MinhaBiblioteca.API.Formatter
             switch (tipoRequisicao)
             {
                 case TipoRequisicao.Post:
-                    return new CreatedAtRouteResult("Get", new {id = (valor as BaseViewModel)?.Id}, retorno);
+                    return new CreatedResult("", retorno);
                 case TipoRequisicao.Put:
                 case TipoRequisicao.Patch:
-                    return new AcceptedAtRouteResult("Get", new {id = (valor as BaseViewModel)?.Id}, retorno);
+                    return new AcceptedResult("", retorno);
                 case TipoRequisicao.Delete:
                     return new NoContentResult();
                 default:

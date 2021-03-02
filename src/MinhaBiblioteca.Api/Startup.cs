@@ -57,6 +57,7 @@ namespace MinhaBiblioteca.API
                 .ConfigurarInfraData(Configuration)
                 .ConfigureShared()
                 .ConfigurarAutoMapper()
+                .ConfigurarAutoMapperData()
                 .ConfigurarUseCases(Configuration)
                 .AddApiVersioning(config =>
                 {

@@ -3,20 +3,15 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MinhaBiblioteca.Domain.Entities;
+using MinhaBiblioteca.Infra.Data.Views;
 
 namespace MinhaBiblioteca.Infra.Data.Context
 {
-    public interface IBibliotecaContext
-    {
-        DbSet<Editora> Editoras { get; set; }
-        Task SaveChangesAsync();
-        EntityEntry<T> Entry<T>(T entity) where T: class;
-        void Remove<T>(T entity) where T: class;
-    }
-
     public class BibliotecaContext : DbContext
     {
         public DbSet<Editora> Editoras { get; set; }
+        public DbSet<Autor> Autores { get; set; }
+        public DbSet<LivroView> Livros { get; set; }
 
         public BibliotecaContext(DbContextOptions options)
             : base(options)

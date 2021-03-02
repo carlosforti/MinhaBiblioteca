@@ -260,13 +260,10 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Post, editora);
 
-            resultado.Should().BeOfType<CreatedAtRouteResult>()
+            resultado.Should().BeOfType<CreatedResult>()
                 .Which.Value.Should().BeEquivalentTo(esperado);
 
-            resultado.Should().BeOfType<CreatedAtRouteResult>()
-                .Which.RouteName.Should().Be("Get");
-
-            resultado.Should().BeOfType<CreatedAtRouteResult>()
+            resultado.Should().BeOfType<CreatedResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Created);
         }
 
@@ -287,13 +284,10 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Put, editora);
 
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
+            resultado.Should().BeOfType<AcceptedResult>()
                 .Which.Value.Should().BeEquivalentTo(esperado);
 
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
-                .Which.RouteName.Should().Be("Get");
-
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
+            resultado.Should().BeOfType<AcceptedResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Accepted);
         }
 
@@ -314,13 +308,10 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = formatter.FormatarResposta(TipoRequisicao.Patch, editora);
 
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
+            resultado.Should().BeOfType<AcceptedResult>()
                 .Which.Value.Should().BeEquivalentTo(resposta);
 
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
-                .Which.RouteName.Should().Be("Get");
-
-            resultado.Should().BeOfType<AcceptedAtRouteResult>()
+            resultado.Should().BeOfType<AcceptedResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.Accepted);
         }
 

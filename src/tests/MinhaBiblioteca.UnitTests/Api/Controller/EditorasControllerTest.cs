@@ -53,7 +53,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<int>()))
                 .ReturnsAsync(editoraViewModel);
 
-            var resultado = (await _controller.GetById(1)) as OkObjectResult;
+            var resultado = (await _controller.Get(1)) as OkObjectResult;
 
             (resultado.Value as EditoraViewModel).Should()
                 .BeEquivalentTo((esperado.Value as EditoraViewModel));
@@ -73,7 +73,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar())
                 .ReturnsAsync(editorasViewModel);
 
-            var resultado = await _controller.Get() as OkObjectResult;
+            var resultado = await _controller.GetAll() as OkObjectResult;
             
             (resultado.Value as Response<IEnumerable<EditoraResumidaViewModel>>)
                 .Should().BeEquivalentTo(esperado.Value as Response<IEnumerable<EditoraResumidaViewModel>>);
@@ -84,7 +84,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         public async Task POST_DeveExecutar()
         {
             var editora = EditoraViewModelBogus.GerarEditoraViewModel();
-            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Post, editora) as CreatedAtRouteResult;
+            var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Post, editora) as CreatedResult;
 
             var entrada = new InserirEditoraViewModel
             {
@@ -97,7 +97,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
                 .Setup(x => x.Executar(It.IsAny<InserirEditoraViewModel>()))
                 .ReturnsAsync(editora);
 
-            var resultado = (await _controller.Post(entrada)) as CreatedAtRouteResult;
+            var resultado = (await _controller.Post(entrada)) as CreatedResult;
             
             (resultado.Value as Response<EditoraViewModel>)
                 .Should().BeEquivalentTo(esperado.Value as EditoraViewModel);
@@ -127,8 +127,8 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
 
             var resultado =await _controller.Put(editora.Id, entrada);
 
-            ((AcceptedAtRouteResult) resultado).Value
-                .Should().BeEquivalentTo(((AcceptedAtRouteResult) esperado).Value);
+            ((AcceptedResult) resultado).Value
+                .Should().BeEquivalentTo(((AcceptedResult) esperado).Value);
             _atualizarEditorUseCase
                 .Verify(x=>x.Executar(It.IsAny<int>(), 
                     It.IsAny<AtualizarEditoraViewModel>()), Times.Once);

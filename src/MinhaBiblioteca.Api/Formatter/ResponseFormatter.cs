@@ -46,7 +46,7 @@ namespace MinhaBiblioteca.API.Formatter
                 case TipoRequisicao.Delete:
                     return new NoContentResult();
                 default:
-                    return new OkObjectResult(valor);
+                    return new OkObjectResult(retorno);
             }
         }
 

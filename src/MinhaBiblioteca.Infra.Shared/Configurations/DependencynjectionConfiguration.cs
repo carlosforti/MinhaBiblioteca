@@ -7,7 +7,7 @@ namespace MinhaBiblioteca.Infra.Shared.Configurations
     {
         public static IServiceCollection ConfigureShared(this IServiceCollection services)
         {
-            services.AddSingleton<INotificador, Notificador>();
+            services.AddScoped<INotificador, Notificador>();
 
             return services;
         }

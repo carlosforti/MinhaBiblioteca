@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -54,10 +55,10 @@ namespace MinhaBiblioteca.API.Controllers
         /// </summary>
         /// <param name="id">Id do livro</param>
         /// <returns>Livro com o Id informado</returns>
-        [HttpGet("{id}", Name = "Get", Order = 2)]
+        [HttpGet("{id}", Order = 2)]
         [ProducesResponseType(typeof(Response<LivroViewModel>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var editora = await _buscarLivroPorIdUseCase.Executar(id);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);

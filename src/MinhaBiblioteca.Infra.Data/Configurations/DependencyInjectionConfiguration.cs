@@ -31,9 +31,10 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
             var connectionString = configuration.GetConnectionString("BibliotecaContext");
             var ambienteProducao = configuration?["Environment"] == "Production";
 
-            if (ambienteProducao)
-                services.AddDbContext<BibliotecaContext>(options =>
-                    builder.UseSqlServer(connectionString));
+            if (ambienteProducao || configuration["ForceProduction"] == "true")
+                services
+                    .AddDbContext<BibliotecaContext>(options =>
+                        options.UseSqlServer(connectionString));
             else
                 services.AddDbContext<BibliotecaContext>(options =>
                     options.UseInMemoryDatabase(databaseName: "BibliotecaContext"));

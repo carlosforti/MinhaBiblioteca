@@ -13,6 +13,7 @@ namespace MinhaBiblioteca.Infra.Shared.Notificacoes
         void AdicionarErro(string propriedade, string mensagem);
         void AdicionarAviso(string propriedade, string mensagem);
         void AdicionarErro(string propriedade, string mensagem, HttpStatusCode statusCode);
+        void DefinirStatusCode(HttpStatusCode badRequest);
     }
 
     public class Notificador : INotificador
@@ -42,5 +43,10 @@ namespace MinhaBiblioteca.Infra.Shared.Notificacoes
 
         public void AdicionarAviso(string propriedade, string mensagem) =>
             _notificacoes.Add(new Notificacao(TipoNotificacao.Aviso, propriedade, mensagem));
+
+        public void DefinirStatusCode(HttpStatusCode statusCode)
+        {
+            StatusCode = statusCode;
+        }
     }
 }

@@ -18,10 +18,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Mappings" />
-  </ItemGroup>
-  
-  <ItemGroup>
     <ProjectReference Include="..\MinhaBiblioteca.Application\MinhaBiblioteca.Application.csproj" />
     <ProjectReference Include="..\MinhaBiblioteca.Infra.Shared\MinhaBiblioteca.Infra.Shared.csproj" />
   </ItemGroup>

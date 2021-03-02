@@ -1,35 +1,69 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Domain.Entities;
+using MinhaBiblioteca.Infra.Data.Context;
+using MinhaBiblioteca.Infra.Data.Views;
+using MinhaBiblioteca.Infra.Shared.Notificacoes;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
 {
-    public class LivroRepository: ILivroRepository
+    public class LivroRepository : ILivroRepository
     {
-        public Task<IEnumerable<Livro>> ListarLivros()
+        private const string NomeEntidade = "Livro";
+        private const string LivroNaoEncontrada = "Livro não encontrado";
+
+        private readonly INotificador _notifier;
+        private readonly IMapper _mapper;
+        private readonly BibliotecaContext _context;
+
+        public LivroRepository(INotificador notifier, IMapper mapper, BibliotecaContext context)
         {
-            throw new System.NotImplementedException();
+            _notifier = notifier;
+            _mapper = mapper;
+            _context = context;
         }
 
-        public Task<Livro> BuscarLivroPorId(int id)
+        public async Task<IEnumerable<Livro>> ListarLivros()
         {
-            throw new System.NotImplementedException();
+            var livros = _context.Livros.AsNoTracking();
+            return await Task.FromResult(_mapper.Map<IEnumerable<Livro>>(livros));
         }
 
-        public Task<Livro> InserirLivro(Livro livro)
+        public async Task<Livro> BuscarLivroPorId(int id)
         {
-            throw new System.NotImplementedException();
+            var livro = await _context.Livros.FindAsync(id);
+            if (livro == null)
+                _notifier.AdicionarErro(NomeEntidade, LivroNaoEncontrada, System.Net.HttpStatusCode.NoContent);
+
+            return _mapper.Map<Livro>(livro);
         }
 
-        public Task<Livro> AtualizarLivro(Livro livro)
+        public async Task<Livro> InserirLivro(Livro livro)
         {
-            throw new System.NotImplementedException();
+            var livroView = _mapper.Map<LivroView>(livro);
+            var resultado = await _context.AddAsync(livroView);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<Livro>(resultado.Entity);
         }
 
-        public Task ExcluirLivro(int id)
+        public async Task<Livro> AtualizarLivro(Livro livro)
         {
-            throw new System.NotImplementedException();
+            var livroView = _mapper.Map<LivroView>(livro);
+            _context.Update(livroView);
+            await _context.SaveChangesAsync();
+            return livro;
+        }
+
+        public async Task ExcluirLivro(int id)
+        {
+            var livro = await BuscarLivroPorId(id);
+            if (livro == null) return;
+
+            _context.Remove(livro);
+            await _context.SaveChangesAsync();
         }
     }
 }

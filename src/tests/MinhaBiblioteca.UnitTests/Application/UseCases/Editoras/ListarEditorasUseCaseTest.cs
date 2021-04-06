@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -48,8 +49,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
         {
             var editoras = new List<Domain.Entities.Editora>
             {
-                new(1, "Editora", "contato@editora.com", "Brasil"),
-                new(2, "Publiher", "publisher@publisher.com", "England")
+                new(Guid.NewGuid(), "Editora", "contato@editora.com", "Brasil"),
+                new(Guid.NewGuid(), "Publiher", "publisher@publisher.com", "England")
             };
 
             var esperado = GerarListaEditorasResumidas(editoras);

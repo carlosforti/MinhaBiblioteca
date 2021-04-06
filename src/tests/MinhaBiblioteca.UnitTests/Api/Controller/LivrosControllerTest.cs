@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using MinhaBiblioteca.API.Controllers;
 using MinhaBiblioteca.API.Formatter;
-using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
 using MinhaBiblioteca.Application.UseCases.Livros.Interfaces;
 using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Application.ViewModels.Livros;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
-using MinhaBiblioteca.UtilTests.Bogus.Editoras;
 using MinhaBiblioteca.UtilTests.Bogus.Livros;
 using Moq;
 using Xunit;
@@ -50,18 +49,19 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         [Fact]
         public async Task GET_DeveRetornarItemUnico()
         {
-            var livroViewModel = LivroViewModelBogus.GerarLivroViewModel(1);
+            var id = Guid.NewGuid();
+            var livroViewModel = LivroViewModelBogus.GerarLivroViewModel(id);
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, livroViewModel) as OkObjectResult;
 
             _buscarLivroPorIdUseCase
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(livroViewModel);
 
-            var resultado = (await _controller.Get(1)) as OkObjectResult;
+            var resultado = (await _controller.Get(id)) as OkObjectResult;
 
             (resultado.Value as EditoraViewModel).Should()
                 .BeEquivalentTo((esperado.Value as EditoraViewModel));
-            _buscarLivroPorIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarLivroPorIdUseCase.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
@@ -128,7 +128,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             };
 
             _atualizarLivroUseCase
-                .Setup(x => x.Executar(It.IsAny<int>(),
+                .Setup(x => x.Executar(It.IsAny<Guid>(),
                     It.IsAny<AtualizarLivroViewModel>()))
                 .ReturnsAsync(livroViewModel);
 
@@ -137,7 +137,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             ((AcceptedResult) resultado).Value
                 .Should().BeEquivalentTo(((AcceptedResult) esperado).Value);
             _atualizarLivroUseCase
-                .Verify(x => x.Executar(It.IsAny<int>(),
+                .Verify(x => x.Executar(It.IsAny<Guid>(),
                     It.IsAny<AtualizarLivroViewModel>()), Times.Once);
         }
 
@@ -147,14 +147,14 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Delete, null);
 
             _excluirLivroUsecase
-                .Setup(x => x.Executar(It.IsAny<int>()));
+                .Setup(x => x.Executar(It.IsAny<Guid>()));
 
-            var resultado = await _controller.Delete(1);
+            var resultado = await _controller.Delete(Guid.NewGuid());
 
             resultado.Should().NotBeNull();
             ((NoContentResult) resultado).Should().BeEquivalentTo((NoContentResult) esperado);
             _excluirLivroUsecase
-                .Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

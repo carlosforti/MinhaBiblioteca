@@ -1,14 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Data.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MinhaBiblioteca.Infra.Data.Context.Configurations
 {
-    public class LivroConfiguration : IEntityTypeConfiguration<LivroView>
+    public class LivroViewConfiguration : IEntityTypeConfiguration<LivroView>
     {
         public void Configure(EntityTypeBuilder<LivroView> builder)
         {

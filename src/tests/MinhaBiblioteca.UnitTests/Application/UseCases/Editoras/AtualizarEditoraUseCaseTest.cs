@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -23,7 +24,7 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
         {
             var viewModel = new AtualizarEditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Email = "contato@editora.com",
                 Nome = "Editora",
                 Pais = "Brasil"
@@ -49,7 +50,7 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
         {
             var viewModel = new AtualizarEditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Email = "contato@editora.com",
                 Nome = "Editora",
                 Pais = "Brasil"
@@ -60,7 +61,7 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
 
             var useCase = new AtualizarEditoraUseCase(_mapper, _editoraRepository.Object, _notificador);
 
-            var resultado = await useCase.Executar(viewModel.Id + 1, viewModel);
+            var resultado = await useCase.Executar(Guid.NewGuid(), viewModel);
 
             resultado.Should().BeNull();
             _notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);

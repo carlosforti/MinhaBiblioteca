@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -31,7 +32,7 @@ namespace MinhaBiblioteca.Application.UseCases.Livros
             _buscarAutorUseCase = buscarAutorUseCase;
         }
 
-        public async Task<LivroViewModel> Executar(int id, AtualizarLivroViewModel atualizarLivroViewModel)
+        public async Task<LivroViewModel> Executar(Guid id, AtualizarLivroViewModel atualizarLivroViewModel)
         {
             if (id != atualizarLivroViewModel.Id)
             {

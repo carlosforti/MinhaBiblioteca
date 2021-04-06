@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MinhaBiblioteca.Domain.Entities;
+using MinhaBiblioteca.Infra.Data.Views;
 
 namespace MinhaBiblioteca.Infra.Data.Context.Configurations
 {
-    public class EditoraConfiguration : IEntityTypeConfiguration<Editora>
+    public class EditoraViewConfiguration : IEntityTypeConfiguration<EditoraView>
     {
-        public void Configure(EntityTypeBuilder<Editora> builder)
+        public void Configure(EntityTypeBuilder<EditoraView> builder)
         {
             builder.HasKey(x => x.Id);
 

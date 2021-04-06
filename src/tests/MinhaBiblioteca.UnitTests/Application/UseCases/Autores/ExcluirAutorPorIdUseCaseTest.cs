@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores;
@@ -27,12 +28,12 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
             var useCase = GerarUseCase(out var notificador);
 
             _autorRepository
-                .Setup(x => x.ExcluirAutor(It.IsAny<int>()))
+                .Setup(x => x.ExcluirAutor(It.IsAny<Guid>()))
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
-            await useCase.Executar(1);
+            await useCase.Executar(Guid.NewGuid());
             
-            _autorRepository.Verify(x => x.ExcluirAutor(It.IsAny<int>()), Times.Once);
+            _autorRepository.Verify(x => x.ExcluirAutor(It.IsAny<Guid>()), Times.Once);
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
         }
 
@@ -41,11 +42,11 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
         {
             var useCase = GerarUseCase(out var notificador);
 
-            _autorRepository.Setup(x => x.ExcluirAutor(It.IsAny<int>()));
+            _autorRepository.Setup(x => x.ExcluirAutor(It.IsAny<Guid>()));
 
-            await useCase.Executar(1);
+            await useCase.Executar(Guid.NewGuid());
             
-            _autorRepository.Verify(x => x.ExcluirAutor(It.IsAny<int>()), Times.Once);
+            _autorRepository.Verify(x => x.ExcluirAutor(It.IsAny<Guid>()), Times.Once);
             notificador.ExistemErros.Should().BeFalse();
         }
     }

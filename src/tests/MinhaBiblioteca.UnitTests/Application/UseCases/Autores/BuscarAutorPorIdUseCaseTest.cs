@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -31,10 +32,10 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
             var useCase = GerarUseCase(out var notificador);
 
             _autorRepository
-                .Setup(x => x.BuscarAutorPorId(It.IsAny<int>()))
+                .Setup(x => x.BuscarAutorPorId(It.IsAny<Guid>()))
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
-            var resultado = await useCase.Executar(1);
+            var resultado = await useCase.Executar(Guid.NewGuid());
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
@@ -46,10 +47,10 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
             var useCase = GerarUseCase(out var notificador);
 
             _autorRepository
-                .Setup(x => x.BuscarAutorPorId(It.IsAny<int>()))
+                .Setup(x => x.BuscarAutorPorId(It.IsAny<Guid>()))
                 .ReturnsAsync(null as Domain.Entities.Autor);
 
-            var resultado = await useCase.Executar(1);
+            var resultado = await useCase.Executar(Guid.NewGuid());
 
             resultado.Should().BeNull();
             notificador.ExistemErros.Should().BeFalse();
@@ -58,16 +59,16 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
         [Fact]
         public async Task Executar_DeveRetornarAutor_QuandoEncontrar()
         {
-            var autor = AutorBogus.GerarAutor(1);
+            var autor = AutorBogus.GerarAutor(Guid.NewGuid());
             var esperado = AutorViewModelBogus.ConverterDeAutor(autor);
             
             var useCase = GerarUseCase(out var notificador);
 
             _autorRepository
-                .Setup(x => x.BuscarAutorPorId(It.IsAny<int>()))
+                .Setup(x => x.BuscarAutorPorId(It.IsAny<Guid>()))
                 .ReturnsAsync(autor);
 
-            var resultado = await useCase.Executar(1);
+            var resultado = await useCase.Executar(autor.Id);
 
             resultado.Should().BeEquivalentTo(esperado);
         }

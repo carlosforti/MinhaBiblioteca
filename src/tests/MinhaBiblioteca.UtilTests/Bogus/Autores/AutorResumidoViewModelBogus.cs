@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using MinhaBiblioteca.Application.ViewModels.Autores;
@@ -8,18 +9,18 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Autores
 {
     public static class AutorResumidoViewModelBogus
     {
-        private static Faker<AutorResumidoViewModel> GerarAutorResumidoInternal(int? id = null)
+        private static Faker<AutorResumidoViewModel> GerarAutorResumidoInternal(Guid? id = null)
         {
             return new Faker<AutorResumidoViewModel>()
                 .CustomInstantiator(faker =>
                     new AutorResumidoViewModel
                     {
-                        Id = id ?? faker.Random.Int(),
+                        Id = id ?? faker.Random.Guid(),
                         Nome = faker.Person.FullName
                     });
         }
 
-        public static AutorResumidoViewModel ConverterDeAutor(Domain.Entities.Autor autor) =>
+        public static AutorResumidoViewModel ConverterDeAutor(Autor autor) =>
             new AutorResumidoViewModel
             {
                 Id = autor.Id,
@@ -27,7 +28,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Autores
             };
 
         public static IEnumerable<AutorResumidoViewModel> ConverterListaDeAutores(
-            IEnumerable<Domain.Entities.Autor> autores) =>
+            IEnumerable<Autor> autores) =>
             autores.Select(ConverterDeAutor);
 
         public static AutorResumidoViewModel ConverterAutorParaViewModel(Autor autor) =>
@@ -37,7 +38,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Autores
                 Nome = autor.Nome
             };
 
-        public static AutorResumidoViewModel GerarAutorResumidoViewModel(int? id = null)
+        public static AutorResumidoViewModel GerarAutorResumidoViewModel(Guid? id = null)
         {
             return GerarAutorResumidoInternal(id).Generate();
         }

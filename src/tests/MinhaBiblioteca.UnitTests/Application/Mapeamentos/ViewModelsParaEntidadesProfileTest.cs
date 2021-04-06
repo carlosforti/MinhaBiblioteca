@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.ViewModels.Autores;
 using MinhaBiblioteca.Application.ViewModels.Editoras;
@@ -14,9 +15,9 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         private readonly IMapper _mapper = AutoMapperHelper.Mapper;
 
         [Fact]
-        public void Mapeamento_DeveMapear_InserirEditoraViewModel_ParaEdtora_ComIdZero()
+        public void Mapeamento_DeveMapear_InserirEditoraViewModel_ParaEdtora_ComIdVazio()
         {
-            var esperado = EditoraBogus.GerarEditora(0); 
+            var esperado = EditoraBogus.GerarEditora(Guid.Empty); 
             
             var inserirEditoraCommand = new InserirEditoraViewModel
             {
@@ -28,7 +29,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
             var resultado = _mapper.Map<Editora>(inserirEditoraCommand);
 
             resultado.Should().BeEquivalentTo(esperado);
-            resultado.Id.Should().Be(0);
+            resultado.Id.Should().Be(Guid.Empty);
         }
 
         [Fact]
@@ -58,7 +59,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
                 Email = "email@autor.com",
                 Pais = "Brasil"
             };
-            var esperado = new Autor(0, viewModel.Nome, viewModel.Email, viewModel.Pais);
+            var esperado = new Autor(Guid.Empty, viewModel.Nome, viewModel.Email, viewModel.Pais);
 
             var resultado = _mapper.Map<Autor>(viewModel);
 
@@ -70,7 +71,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         {
             var viewModel = new AutorViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Autor",
                 Email = "email@autor.com",
                 Pais = "Brasil"

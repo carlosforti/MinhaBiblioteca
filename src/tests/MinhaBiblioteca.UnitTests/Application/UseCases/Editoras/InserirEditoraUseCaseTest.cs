@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -26,16 +27,16 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
 
             var esperado = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = inserirEditoraCommand.Nome,
                 Email = inserirEditoraCommand.Email,
                 Pais = inserirEditoraCommand.Pais
             };
 
-            var editoraMap = new Domain.Entities.Editora(0, inserirEditoraCommand.Nome, inserirEditoraCommand.Email,
+            var editoraMap = new Domain.Entities.Editora(Guid.Empty, inserirEditoraCommand.Nome, inserirEditoraCommand.Email,
                 inserirEditoraCommand.Pais);
 
-            var editora = new Domain.Entities.Editora(1, inserirEditoraCommand.Nome, inserirEditoraCommand.Email, inserirEditoraCommand.Pais);
+            var editora = new Domain.Entities.Editora(esperado.Id, inserirEditoraCommand.Nome, inserirEditoraCommand.Email, inserirEditoraCommand.Pais);
 
             _mapper
                 .Setup(x => x.Map<Domain.Entities.Editora>(It.IsAny<InserirEditoraViewModel>()))

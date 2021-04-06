@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -20,9 +21,10 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
         [Fact]
         public async Task Executar_DeveRetornarErro_QuandoIdDiferenteDoIdRota()
         {
+            var newId = Guid.NewGuid();
             var viewModel = new AtualizarAutorViewModel
             {
-                Id = 1,
+                Id = newId,
                 Nome = "Autor",
                 Email = "email@autor.com",
                 Pais = "Brasil"
@@ -32,7 +34,7 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("id", "Id informado não corresponde ao da rota");
 
-            var resultado = await useCase.Executar(2, viewModel);
+            var resultado = await useCase.Executar(Guid.NewGuid(), viewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
@@ -56,9 +58,9 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Autores
                 .ReturnsAsync(esperado);
 
             var useCase = GerarAtualizarAutorUseCase(out var notificador);
-            var resultadp = await useCase.Executar(viewModel.Id, viewModel);
+            var resultado = await useCase.Executar(viewModel.Id, viewModel);
 
-            resultadp.Should().BeEquivalentTo(esperado);
+            resultado.Should().BeEquivalentTo(esperado);
             _autorRepository
                 .Verify(x => x.AtualizarAutor(It.IsAny<Domain.Entities.Autor>()), Times.Once);
         }

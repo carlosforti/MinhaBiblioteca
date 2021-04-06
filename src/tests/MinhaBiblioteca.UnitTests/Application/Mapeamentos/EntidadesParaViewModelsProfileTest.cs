@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.ViewModels.Editoras;
 using MinhaBiblioteca.Domain.Entities;
@@ -14,7 +15,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         [Fact]
         public void Mapeamento_DeveMapear_Editora_ParaEditoraViewModel()
         {
-            var editora = new Editora(1, "Editora", "editora@editora.com", "Brasil");
+            var editora = new Editora(Guid.NewGuid(), "Editora", "editora@editora.com", "Brasil");
             var esperado = new EditoraViewModel
             {
                 Id = editora.Id,
@@ -31,7 +32,7 @@ namespace MinhaBiblioteca.UnitTests.Application.Mapeamentos
         [Fact]
         public void Mapeamento_DeveMapear_Editora_ParaEditoraResumidaViewModel()
         {
-            var editora = new Editora(1, "Editora", "editora@editora.com", "Brasil");
+            var editora = new Editora(Guid.NewGuid(), "Editora", "editora@editora.com", "Brasil");
             var esperado = new EditoraResumidaViewModel
             {
                 Id = editora.Id,

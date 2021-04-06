@@ -1,8 +1,7 @@
 namespace MinhaBiblioteca.Application.ViewModels.Livros
 {
-    public class LivroResumidoViewModel
+    public class LivroResumidoViewModel: BaseViewModel
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public int Edicao { get; set; }
         public string NomeAutor { get; set; }

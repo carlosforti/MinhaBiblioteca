@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bogus;
@@ -10,19 +10,19 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Livros
 {
     public class LivroViewModelBogus
     {
-        private static Faker<LivroViewModel> GerarLivroViewModelInternal(int? id = null) =>
+        private static Faker<LivroViewModel> GerarLivroViewModelInternal(Guid? id = null) =>
             new Faker<LivroViewModel>()
                 .CustomInstantiator(faker =>
                     new LivroViewModel
                     {
-                        Id = id ?? faker.Random.Int(),
+                        Id = id ?? faker.Random.Guid(),
                         Nome = faker.Random.String2(20),
                         Edicao = faker.Random.Int(),
                         Autor = AutorViewModelBogus.GerarAutorResumidoViewModel(),
                         Editora = EditoraViewModelBogus.GerarEditoraResumidaViewModel()
                     });
 
-        public static LivroViewModel GerarLivroViewModel(int? id = null) =>
+        public static LivroViewModel GerarLivroViewModel(Guid? id = null) =>
             GerarLivroViewModelInternal(id).Generate();
 
         public static IEnumerable<LivroViewModel> GerarListaLivroViewModel(int quantidade = 1) =>

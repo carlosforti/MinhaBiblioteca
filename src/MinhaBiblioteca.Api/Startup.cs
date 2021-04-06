@@ -14,7 +14,6 @@ using Microsoft.OpenApi.Models;
 using MinhaBiblioteca.API.Formatter;
 using MinhaBiblioteca.Application.Configurations;
 using MinhaBiblioteca.Infra.Data.Configurations;
-using MinhaBiblioteca.Infra.Data.Context;
 using MinhaBiblioteca.Infra.Shared.Configurations;
 
 namespace MinhaBiblioteca.API

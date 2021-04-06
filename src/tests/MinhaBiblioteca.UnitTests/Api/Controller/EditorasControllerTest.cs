@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -46,18 +47,19 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         [Fact]
         public async Task GET_DeveRetornarItemUnico()
         {
-            var editoraViewModel = EditoraViewModelBogus.GerarEditoraViewModel(1);
+            var id = Guid.NewGuid();
+            var editoraViewModel = EditoraViewModelBogus.GerarEditoraViewModel(id);
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, editoraViewModel) as OkObjectResult;
 
             _buscarEditoraPorIdUseCase
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(editoraViewModel);
 
-            var resultado = (await _controller.Get(1)) as OkObjectResult;
+            var resultado = (await _controller.Get(id)) as OkObjectResult;
 
             (resultado.Value as EditoraViewModel).Should()
                 .BeEquivalentTo((esperado.Value as EditoraViewModel));
-            _buscarEditoraPorIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarEditoraPorIdUseCase.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
@@ -121,7 +123,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             };
 
             _atualizarEditorUseCase
-                .Setup(x => x.Executar(It.IsAny<int>(), 
+                .Setup(x => x.Executar(It.IsAny<Guid>(), 
                     It.IsAny<AtualizarEditoraViewModel>()))
                 .ReturnsAsync(editora);
 
@@ -130,7 +132,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             ((AcceptedResult) resultado).Value
                 .Should().BeEquivalentTo(((AcceptedResult) esperado).Value);
             _atualizarEditorUseCase
-                .Verify(x=>x.Executar(It.IsAny<int>(), 
+                .Verify(x=>x.Executar(It.IsAny<Guid>(), 
                     It.IsAny<AtualizarEditoraViewModel>()), Times.Once);
         }
         
@@ -140,14 +142,14 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Delete, null);
             
             _excluirEdtoraUsecase
-                .Setup(x => x.Executar(It.IsAny<int>()));
+                .Setup(x => x.Executar(It.IsAny<Guid>()));
 
-            var resultado = await _controller.Delete(1);
+            var resultado = await _controller.Delete(Guid.NewGuid());
 
             resultado.Should().NotBeNull();
             ((NoContentResult)resultado).Should().BeEquivalentTo((NoContentResult)esperado);
             _excluirEdtoraUsecase
-                .Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

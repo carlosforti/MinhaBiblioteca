@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -22,7 +23,7 @@ namespace MinhaBiblioteca.Application.UseCases.Livros
             _livroRepository = livroRepository;
         }
 
-        public async Task<LivroViewModel> Executar(int id)
+        public async Task<LivroViewModel> Executar(Guid id)
         {
             var livro = await _livroRepository.BuscarLivroPorId(id);
 

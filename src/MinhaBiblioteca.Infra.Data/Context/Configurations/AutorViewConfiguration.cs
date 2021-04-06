@@ -1,15 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using MinhaBiblioteca.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MinhaBiblioteca.Infra.Data.Views;
 
 namespace MinhaBiblioteca.Infra.Data.Context.Configurations
 {
-    public class AutorConfiguration : IEntityTypeConfiguration<Autor>
+    public class AutorViewConfiguration : IEntityTypeConfiguration<AutorView>
     {
-        public void Configure(EntityTypeBuilder<Autor> builder)
+        public void Configure(EntityTypeBuilder<AutorView> builder)
         {
             builder.HasKey(x => x.Id);
 

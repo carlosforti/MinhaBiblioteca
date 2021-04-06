@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
@@ -21,7 +22,7 @@ namespace MinhaBiblioteca.Application.UseCases.Editoras
             _notificador = notificador;
         }
 
-        public async Task<EditoraViewModel> Executar(int id, AtualizarEditoraViewModel viewModel)
+        public async Task<EditoraViewModel> Executar(Guid id, AtualizarEditoraViewModel viewModel)
         {
             if (viewModel.Id != id)
             {

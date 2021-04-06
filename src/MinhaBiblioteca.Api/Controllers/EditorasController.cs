@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using MinhaBiblioteca.API.Formatter;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
@@ -60,7 +61,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpGet("{id}", Order = 2)]
         [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var editora = await _buscarEditoraPorIdUseCase.Executar(id);
             return _formatter.FormatarResposta(TipoRequisicao.Get, editora);
@@ -84,7 +85,7 @@ namespace MinhaBiblioteca.API.Controllers
         [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.Accepted)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] AtualizarEditoraViewModel viewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] AtualizarEditoraViewModel viewModel)
         {
             var editora = await _atualizarEditoraUseCase.Executar(id, viewModel);
             return _formatter.FormatarResposta(TipoRequisicao.Put, editora);
@@ -98,7 +99,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpDelete("{id}", Order = 5)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _excluirEditoraUseCase.Executar(id);
             return _formatter.FormatarResposta(TipoRequisicao.Delete, null);

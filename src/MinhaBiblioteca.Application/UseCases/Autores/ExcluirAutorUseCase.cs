@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
@@ -16,7 +17,7 @@ namespace MinhaBiblioteca.Application.UseCases.Autores
             _autorRepository = autorRepository;
         }
 
-        public async Task Executar(int id)
+        public async Task Executar(Guid id)
         {
             await _autorRepository.ExcluirAutor(id);
         }

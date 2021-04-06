@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -20,7 +21,7 @@ namespace MinhaBiblioteca.Application.UseCases.Editoras
             _mapper = mapper;
         }
 
-        public async Task<EditoraViewModel> Executar(int id)
+        public async Task<EditoraViewModel> Executar(Guid id)
         {
             var editora = await _editoraRepository.BuscarEditoraPorId(id);
             return _notificador.ExistemErros ? null : _mapper.Map<EditoraViewModel>(editora);

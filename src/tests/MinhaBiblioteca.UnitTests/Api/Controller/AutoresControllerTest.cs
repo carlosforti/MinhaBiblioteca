@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -37,19 +38,20 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
         [Fact]
         public async Task GET_DeveRetornarItemUnico()
         {
+            var id = Guid.NewGuid();
             var controller = GerarController(out _);
-            var autorViewModel = AutorViewModelBogus.GerarAutorViewModel(1);
+            var autorViewModel = AutorViewModelBogus.GerarAutorViewModel(id);
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Get, autorViewModel);
 
             _buscarAutorPorIdUseCase
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(autorViewModel);
 
-            var resultado = await controller.Get(1);
+            var resultado = await controller.Get(id);
 
             ((OkObjectResult) resultado).Value
                 .Should().BeEquivalentTo(((OkObjectResult) esperado).Value);
-            _buscarAutorPorIdUseCase.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutorPorIdUseCase.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
@@ -112,7 +114,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             };
 
             _atualizarAutorUseCase
-                .Setup(x => x.Executar(It.IsAny<int>(), It.IsAny<AtualizarAutorViewModel>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>(), It.IsAny<AtualizarAutorViewModel>()))
                 .ReturnsAsync(autor);
 
             var resultado = await controller.Put(autor.Id, entrada);
@@ -129,14 +131,14 @@ namespace MinhaBiblioteca.UnitTests.Api.Controller
             var esperado = _responseFormatter.FormatarResposta(TipoRequisicao.Delete, null);
 
             _excluirAutorUseCase
-                .Setup(x => x.Executar(It.IsAny<int>()));
+                .Setup(x => x.Executar(It.IsAny<Guid>()));
 
-            var resultado = await controller.Delete(1);
+            var resultado = await controller.Delete(Guid.NewGuid());
 
             resultado.Should().NotBeNull();
             ((NoContentResult) resultado).Should().BeEquivalentTo((NoContentResult) esperado);
             _excluirAutorUseCase
-                .Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+                .Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

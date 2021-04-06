@@ -1,8 +1,10 @@
+using System;
+
 namespace MinhaBiblioteca.Domain.Entities
 {
     public class Autor
     {
-        public Autor(int id, string nome, string email, string pais)
+        public Autor(Guid id, string nome, string email, string pais)
         {
             Id = id;
             Nome = nome;
@@ -10,11 +12,16 @@ namespace MinhaBiblioteca.Domain.Entities
             Pais = pais;
         }
 
-        public int Id { get; private set; }
-        public string Nome { get; private set; }
-        public string Email { get; private set; }
-        public string Pais { get; private set; }
+        public Guid Id { get; private set; }
+        public string Nome { get; }
+        public string Email { get; }
+        public string Pais { get; }
 
         // public ICollection<Livro> Livros = new List<Livro>();
+        
+        public void SetId(Guid newGuid)
+        {
+            Id = newGuid;
+        }
     }
 }

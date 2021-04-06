@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using MinhaBiblioteca.API.Formatter;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
 using MinhaBiblioteca.Application.ViewModels.Autores;
@@ -56,7 +57,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpGet("{id}", Order = 2)]
         [ProducesResponseType(typeof(Response<AutorViewModel>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var autor = await _buscarAutorPorIdUseCase.Executar(id);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Get, autor);
@@ -86,7 +87,7 @@ namespace MinhaBiblioteca.API.Controllers
         [ProducesResponseType(typeof(Response<AutorViewModel>), (int)HttpStatusCode.Accepted)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Put(int id, AtualizarAutorViewModel atualizarAutorViewModel)
+        public async Task<IActionResult> Put(Guid id, AtualizarAutorViewModel atualizarAutorViewModel)
         {
             var autor = await _atualizarAutorUseCase.Executar(id, atualizarAutorViewModel);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Put, autor);
@@ -100,7 +101,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpDelete("{id}", Order = 5)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _excluirAutorUseCase.Executar(id);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Delete, null);

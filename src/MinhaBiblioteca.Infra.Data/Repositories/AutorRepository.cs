@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Domain.Entities;
 using MinhaBiblioteca.Infra.Data.Context;
+using MinhaBiblioteca.Infra.Data.Views;
 using MinhaBiblioteca.Infra.Shared.Notificacoes;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
@@ -13,33 +16,36 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         private const string NomeEntidade = "Autor";
         private const string AutorNaoEncontrado = "Autor Não Encontrado";
 
+        private readonly IMapper _mapper;
         private readonly BibliotecaContext _context;
         private readonly INotificador _notificador;
 
-        public AutorRepository(BibliotecaContext context, INotificador notificador)
+        public AutorRepository(BibliotecaContext context, INotificador notificador, IMapper mapper)
         {
             _context = context;
             _notificador = notificador;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Autor>> ListarAutores()
         {
-            return await Task.FromResult(_context.Autores.AsNoTracking());
+            var autores = _context.Autores.AsNoTracking();
+            return await Task.FromResult(_mapper.Map<IEnumerable<Autor>>(autores));
         }
 
-        public async Task<Autor> BuscarAutorPorId(int id)
+        public async Task<Autor> BuscarAutorPorId(Guid id)
         {
             try
             {
                 var autor = await _context.Autores.FirstOrDefaultAsync(x => x.Id == id);
                 if (autor == null)
                     _notificador.AdicionarErro(NomeEntidade,
-                                               AutorNaoEncontrado,
-                                               System.Net.HttpStatusCode.NoContent);
+                        AutorNaoEncontrado,
+                        System.Net.HttpStatusCode.NoContent);
 
-                return autor;
+                return _mapper.Map<Autor>(autor);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
@@ -50,12 +56,14 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
-                var resultado = await _context.Autores.AddAsync(autor);
+                var view = _mapper.Map<AutorView>(autor);
+                view.Id = Guid.NewGuid();
+                var resultado = await _context.Autores.AddAsync(view);
                 await _context.SaveChangesAsync();
 
-                return resultado.Entity;
+                return _mapper.Map<Autor>(resultado.Entity);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
@@ -70,19 +78,19 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
                 await _context.SaveChangesAsync();
                 return autor;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
             }
         }
 
-        public async Task ExcluirAutor(int id)
+        public async Task ExcluirAutor(Guid id)
         {
             var autor = await BuscarAutorPorId(id);
             if (_notificador.ExistemErros) return;
 
-            _context.Autores.Remove(autor);
+            _context.Autores.Remove(_mapper.Map<AutorView>(autor));
             await _context.SaveChangesAsync();
         }
     }

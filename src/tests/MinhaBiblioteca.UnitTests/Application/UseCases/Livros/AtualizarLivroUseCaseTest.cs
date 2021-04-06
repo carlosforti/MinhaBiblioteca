@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using AutoMapper;
@@ -48,36 +49,37 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("id", "Id informado não corresponde ao da rota");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(Guid.NewGuid());
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
             var useCase = GerarUseCase(out var notificador);
 
-            var resultado = await useCase.Executar(2, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(Guid.NewGuid(), atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Never);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Never);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Never);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Never);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Never);
         }
 
         [Fact]
         public async Task Executar_DeveNotificar_QuandoOcorrerUmErro()
         {
+            var id = Guid.NewGuid();
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("erro", "mensagem");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(id);
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
 
             var autor = AutorViewModelBogus.ConverterDeAutor(livro.Autor);
             var editora = EditoraViewModelBogus.ConverterEditoraParaViewModel(livro.Editora);
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(autor);
 
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(editora);
 
             var useCase = GerarUseCase(out var notificador);
@@ -85,70 +87,74 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
                 .Setup(x => x.AtualizarLivro(It.IsAny<Livro>()))
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Once);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
         public async Task Executar_DeveNotificar_QuandoOcorrerUmErro_NaBuscaDeAutor()
         {
+            var id = Guid.NewGuid();
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("erro", "mensagem");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(id);
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
 
             var useCase = GerarUseCase(out var notificador);
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Never);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
         public async Task Executar_DeveNotificar_QuandoOcorrerUmErro_NaBuscaDeEditora()
         {
+            var id = Guid.NewGuid();
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("erro", "mensagem");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(id);
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
 
             var useCase = GerarUseCase(out var notificador);
 
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Never);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
         public async Task Executar_DeveRetornarNulo_QuandoNaoEncontrarEditora()
         {
+            var id = Guid.NewGuid();
+
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("erro", "mensagem");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(id);
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
 
             var useCase = GerarUseCase(out var notificador);
@@ -156,51 +162,53 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var autor = AutorViewModelBogus.ConverterDeAutor(livro.Autor);
             var editora = EditoraViewModelBogus.ConverterEditoraParaViewModel(livro.Editora);
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(null as EditoraViewModel);
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(autor);
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Never);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
         public async Task Executar_DeveRetornarNulo_QuandoNaoEncontrarAutor()
         {
+            var id = Guid.NewGuid();
             var notificadorEsperado = new Notificador();
             notificadorEsperado.AdicionarErro("erro", "mensagem");
 
-            var livro = LivroBogus.GerarLivro(1);
+            var livro = LivroBogus.GerarLivro(id);
             var atualizarLivroViewModel = LivroBogus.CriarAtualizarLivroViewModelDeLivro(livro);
             var useCase = GerarUseCase(out var notificador);
 
             var autor = AutorViewModelBogus.ConverterDeAutor(livro.Autor);
             var editora = EditoraViewModelBogus.ConverterEditoraParaViewModel(livro.Editora);
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(editora);
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(null as AutorViewModel);
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeNull();
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Never);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
 
         [Fact]
         public async Task Executar_DeveRetornarLivro_QuandoSucesso()
         {
-            var livro = LivroBogus.GerarLivro(1);
+            var id = Guid.NewGuid();
+            var livro = LivroBogus.GerarLivro(id);
             var autor = AutorViewModelBogus.ConverterDeAutor(livro.Autor);
             var editora = EditoraViewModelBogus.ConverterEditoraParaViewModel(livro.Editora);
 
@@ -226,19 +234,19 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var useCase = GerarUseCase(out var notificador);
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(autor);
 
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(editora);
 
-            var resultado = await useCase.Executar(1, atualizarLivroViewModel);
+            var resultado = await useCase.Executar(id, atualizarLivroViewModel);
 
             resultado.Should().BeEquivalentTo(esperado);
             _livroRepository.Verify(x => x.AtualizarLivro(It.IsAny<Livro>()), Times.Once);
-            _buscarAutor.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x => x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x => x.Executar(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

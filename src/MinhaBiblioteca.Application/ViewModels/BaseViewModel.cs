@@ -1,7 +1,9 @@
-﻿namespace MinhaBiblioteca.Application.ViewModels
+﻿using System;
+
+namespace MinhaBiblioteca.Application.ViewModels
 {
     public class BaseViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

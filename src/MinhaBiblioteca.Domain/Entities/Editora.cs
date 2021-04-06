@@ -1,8 +1,10 @@
+using System;
+
 namespace MinhaBiblioteca.Domain.Entities
 {
     public class Editora
     {
-        public Editora(int id, string nome, string email, string pais)
+        public Editora(Guid id, string nome, string email, string pais)
         {
             Id = id;
             Nome = nome;
@@ -10,7 +12,7 @@ namespace MinhaBiblioteca.Domain.Entities
             Pais = pais;
         }
 
-        public int Id { get; protected set; }
+        public Guid Id { get; protected set; }
         public string Nome { get; protected  set; }
         public string Email { get; protected  set; }
         public string Pais { get; protected  set; }

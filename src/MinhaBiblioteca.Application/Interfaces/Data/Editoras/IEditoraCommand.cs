@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MinhaBiblioteca.Domain.Entities;
 
@@ -7,6 +8,6 @@ namespace MinhaBiblioteca.Application.Interfaces.Data.Editoras
     {
         Task<Editora> AdicionarEditora(Editora editora);
         Task<Editora> AtualizarEditora(Editora editora);
-        Task ExcluirEditora(int id);
+        Task ExcluirEditora(Guid id);
     }
 }

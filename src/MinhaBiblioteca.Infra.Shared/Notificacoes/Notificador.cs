@@ -6,8 +6,8 @@ namespace MinhaBiblioteca.Infra.Shared.Notificacoes
 {
     public interface INotificador
     {
-        IReadOnlyList<Notificacao> Erros { get; }
-        IReadOnlyList<Notificacao> Avisos { get; }
+        IEnumerable<Notificacao> Erros { get; }
+        IEnumerable<Notificacao> Avisos { get; }
         bool ExistemErros { get; }
         HttpStatusCode StatusCode { get; }
         void AdicionarErro(string propriedade, string mensagem);
@@ -22,10 +22,10 @@ namespace MinhaBiblioteca.Infra.Shared.Notificacoes
 
         private readonly List<Notificacao> _notificacoes = new List<Notificacao>();
 
-        public IReadOnlyList<Notificacao> Erros =>
+        public IEnumerable<Notificacao> Erros =>
             _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Erro).ToList();
 
-        public IReadOnlyList<Notificacao> Avisos =>
+        public IEnumerable<Notificacao> Avisos =>
             _notificacoes.Where(x => x.TipoNotificacao == TipoNotificacao.Aviso).ToList();
 
         public bool ExistemErros => _notificacoes.Any(x => x.TipoNotificacao == TipoNotificacao.Erro);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             return await Task.FromResult(_mapper.Map<IEnumerable<Livro>>(livros));
         }
 
-        public async Task<Livro> BuscarLivroPorId(int id)
+        public async Task<Livro> BuscarLivroPorId(Guid id)
         {
             var livro = await _context.Livros.FindAsync(id);
             if (livro == null)
@@ -44,6 +45,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         public async Task<Livro> InserirLivro(Livro livro)
         {
             var livroView = _mapper.Map<LivroView>(livro);
+            livroView.Id = Guid.NewGuid();
             var resultado = await _context.AddAsync(livroView);
             await _context.SaveChangesAsync();
             return _mapper.Map<Livro>(resultado.Entity);
@@ -57,7 +59,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             return livro;
         }
 
-        public async Task ExcluirLivro(int id)
+        public async Task ExcluirLivro(Guid id)
         {
             var livro = await BuscarLivroPorId(id);
             if (livro == null) return;

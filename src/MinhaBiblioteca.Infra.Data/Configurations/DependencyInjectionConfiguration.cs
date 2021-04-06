@@ -23,23 +23,19 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
         private static IServiceCollection ConfigurarDbContext(this IServiceCollection services,
             IConfiguration configuration)
         {
-            var builder = new DbContextOptionsBuilder();
-
             if (configuration == null)
-                builder.UseInMemoryDatabase(databaseName: "BibliotecaContext");
+                return services.AddDbContext<BibliotecaContext>(options =>
+                    options.UseInMemoryDatabase("BibliotecaContext"));
 
             var connectionString = configuration.GetConnectionString("BibliotecaContext");
             var ambienteProducao = configuration?["Environment"] == "Production";
 
             if (ambienteProducao || configuration["ForceProduction"] == "true")
-                services
-                    .AddDbContext<BibliotecaContext>(options =>
-                        options.UseSqlServer(connectionString));
-            else
-                services.AddDbContext<BibliotecaContext>(options =>
-                    options.UseInMemoryDatabase(databaseName: "BibliotecaContext"));
+                return services.AddDbContext<BibliotecaContext>(options =>
+                    options.UseSqlServer(connectionString));
 
-            return services;
+            return services.AddDbContext<BibliotecaContext>(options =>
+                    options.UseInMemoryDatabase("BibliotecaContext"));
         }
     }
 }

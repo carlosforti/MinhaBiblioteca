@@ -1,18 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bogus;
 
 namespace MinhaBiblioteca.UtilTests.Bogus.Autores
 {
     public static class AutorBogus
     {
-        private static Faker<Domain.Entities.Autor> GerarAutorInternal(int? id = null)
+        private static Faker<Domain.Entities.Autor> GerarAutorInternal(Guid? id = null)
         {
             return new Faker<Domain.Entities.Autor>()
-                .CustomInstantiator(faker => new Domain.Entities.Autor(id ?? faker.Random.Int(), faker.Person.FullName,
+                .CustomInstantiator(faker => new Domain.Entities.Autor(id ?? faker.Random.Guid(), faker.Person.FullName,
                     faker.Person.Email, faker.Address.Country()));
         }
 
-        public static Domain.Entities.Autor GerarAutor(int? id = null)
+        public static Domain.Entities.Autor GerarAutor(Guid? id = null)
         {
             return GerarAutorInternal(id).Generate();
         }

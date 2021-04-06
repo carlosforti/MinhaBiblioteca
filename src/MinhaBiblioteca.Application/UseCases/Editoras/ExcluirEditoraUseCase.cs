@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras.Interfaces;
 
@@ -13,7 +14,7 @@ namespace MinhaBiblioteca.Application.UseCases.Editoras
             _editoraRepository = editoraRepository;
         }
 
-        public async Task Executar(int id)
+        public async Task Executar(Guid id)
         {
             await _editoraRepository.ExcluirEditora(id);
         }

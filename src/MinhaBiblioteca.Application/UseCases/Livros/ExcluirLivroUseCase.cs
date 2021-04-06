@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -14,7 +15,7 @@ namespace MinhaBiblioteca.Application.UseCases.Livros
             _livroRepository = livroRepository;
         }
 
-        public async Task Executar(int id)
+        public async Task Executar(Guid id)
         {
             await _livroRepository.ExcluirLivro(id);
         }

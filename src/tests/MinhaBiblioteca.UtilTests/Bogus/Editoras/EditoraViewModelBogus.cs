@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bogus;
 using MinhaBiblioteca.Application.ViewModels.Editoras;
 
@@ -6,12 +7,12 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Editoras
 {
     public static class EditoraViewModelBogus
     {
-        private static Faker<EditoraViewModel> GerarEditoraViewModelInternal(int? id = null)
+        private static Faker<EditoraViewModel> GerarEditoraViewModelInternal(Guid? id = null)
         {
             return new Faker<EditoraViewModel>()
                 .CustomInstantiator(faker => new EditoraViewModel
                 {
-                    Id = id ?? faker.Random.Int(),
+                    Id = id ?? faker.Random.Guid(),
                     Nome = faker.Company.CompanyName(),
                     Email = faker.Person.Email,
                     Pais = faker.Address.Country()
@@ -23,7 +24,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Editoras
             return GerarEditoraViewModelInternal().Generate(quantidade);
         }
 
-        public static EditoraViewModel GerarEditoraViewModel(int? id = null)
+        public static EditoraViewModel GerarEditoraViewModel(Guid? id = null)
         {
             return GerarEditoraViewModelInternal(id).Generate();
         }

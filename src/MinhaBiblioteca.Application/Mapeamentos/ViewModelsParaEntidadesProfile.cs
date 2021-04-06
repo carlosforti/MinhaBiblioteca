@@ -1,3 +1,4 @@
+using System;
 using AutoMapper;
 
 using MinhaBiblioteca.Application.ViewModels.Autores;
@@ -13,7 +14,7 @@ namespace MinhaBiblioteca.Application.Mapeamentos
         {
             CreateMap<InserirEditoraViewModel, Editora>()
                 .ConstructUsing((viewModel,
-                    context) => new Editora(0,
+                    context) => new Editora(Guid.Empty,
                     viewModel.Nome,
                     viewModel.Email,
                     viewModel.Pais));
@@ -21,7 +22,7 @@ namespace MinhaBiblioteca.Application.Mapeamentos
             CreateMap<AtualizarEditoraViewModel, Editora>();
 
             CreateMap<InserirAutorViewModel, Autor>()
-                .ConstructUsing((viewModel, context) => new Autor(0, viewModel.Nome, viewModel.Email, viewModel.Pais));
+                .ConstructUsing((viewModel, context) => new Autor(Guid.Empty, viewModel.Nome, viewModel.Email, viewModel.Pais));
 
             CreateMap<AtualizarAutorViewModel, Autor>();
 
@@ -48,7 +49,7 @@ namespace MinhaBiblioteca.Application.Mapeamentos
                     if (inserirLivroViewModel == null || editoraViewModel == null || autorViewModel == null)
                         return null;
 
-                    var livro = new Livro(0,
+                    var livro = new Livro(Guid.NewGuid(),
                         inserirLivroViewModel.Nome,
                         inserirLivroViewModel.Edicao,
                         context.Mapper.Map<Autor>(autorViewModel),

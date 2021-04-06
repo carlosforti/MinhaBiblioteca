@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using MinhaBiblioteca.Infra.Data.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using MinhaBiblioteca.Infra.Data.Mappings;
 
 namespace MinhaBiblioteca.Infra.Data.Configurations
 {
@@ -11,7 +8,7 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
     {
         public static IServiceCollection ConfigurarAutoMapperData(this IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(LivroView));
+            services.AddAutoMapper(typeof(EntidadeParaViewsProfile));
             return services;
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using MinhaBiblioteca.Application.ViewModels.Livros;
@@ -10,7 +11,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Livros
 {
     public static class LivroBogus
     {
-        private static Faker<Livro> GerarLivroInternal(int? id = null, bool criarEditora = true, bool criarAutor = true)
+        private static Faker<Livro> GerarLivroInternal(Guid? id = null, bool criarEditora = true, bool criarAutor = true)
         {
             return new Faker<Livro>()
                 .CustomInstantiator(faker =>
@@ -18,7 +19,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Livros
                     var autor = criarAutor ? AutorBogus.GerarAutor() : null;
                     var editora = criarEditora ? EditoraBogus.GerarEditora() : null;
                     return new Livro(
-                        id ?? faker.Random.Int(),
+                        id ?? faker.Random.Guid(),
                         faker.Lorem.Slug(),
                         faker.Random.Int(1, 10),
                         autor,
@@ -27,7 +28,7 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Livros
                 });
         }
 
-        public static Livro GerarLivro(int? id = null, bool criarEditora = true, bool criarAutor = true) =>
+        public static Livro GerarLivro(Guid? id = null, bool criarEditora = true, bool criarAutor = true) =>
             GerarLivroInternal(id, criarEditora, criarAutor).Generate();
 
         public static IEnumerable<Livro> GerarListaLivros(int quantidade = 1)
@@ -39,8 +40,8 @@ namespace MinhaBiblioteca.UtilTests.Bogus.Livros
                 Id = livro.Id,
                 Nome = livro.Nome,
                 Edicao = livro.Edicao,
-                AutorId = livro.Autor?.Id ?? 0,
-                EditoraId = livro.Editora?.Id ?? 0,
+                AutorId = livro.Autor?.Id ?? Guid.Empty,
+                EditoraId = livro.Editora?.Id ?? Guid.Empty,
             };
 
         public static IEnumerable<LivroResumidoViewModel> CriarListaLivroResumidoViewModel(IEnumerable<Livro> livros) =>

@@ -1,18 +1,14 @@
 ﻿using MinhaBiblioteca.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MinhaBiblioteca.Infra.Data.Views
 {
-    public class LivroView
+    public class LivroView: BaseView
     {
-        public int Id { get; private set; }
-        public string Nome { get; private set; }
-        public int Edicao { get; private set; }
+        public string Nome { get; set; }
+        public int Edicao { get; set; }
         public int AutorId { get; set; }
-        public Autor Autor { get; private set; }
+        public Autor Autor { get; set; }
         public int EditoraId { get; set; }
-        public Editora Editora { get; private set; }
+        public Editora Editora { get; set; }
     }
 }

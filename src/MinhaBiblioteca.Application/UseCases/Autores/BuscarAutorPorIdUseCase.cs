@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Autores.Interfaces;
@@ -20,7 +21,7 @@ namespace MinhaBiblioteca.Application.UseCases.Autores
             _notificador = notificador;
         }
 
-        public async Task<AutorViewModel> Executar(int id)
+        public async Task<AutorViewModel> Executar(Guid id)
         {
             var autor = await _autorRepository.BuscarAutorPorId(id);
             return _notificador.ExistemErros ? null : _mapper.Map<AutorViewModel>(autor);

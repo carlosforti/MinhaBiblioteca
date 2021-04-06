@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\MinhaBiblioteca.Application\MinhaBiblioteca.Application.csproj" />
+      <ProjectReference Include="..\..\MinhaBiblioteca.Infra.Data\MinhaBiblioteca.Infra.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Bogus;
 
 namespace MinhaBiblioteca.UtilTests.Bogus.Editoras
 {
     public static class EditoraBogus
     {
-        private static Faker<Domain.Entities.Editora> GerarEditoraInternal(int? id =null)
+        private static Faker<Domain.Entities.Editora> GerarEditoraInternal(Guid? id = null)
         {
             return new Faker<Domain.Entities.Editora>()
                 .CustomInstantiator(faker => new Domain.Entities.Editora(
-                    id ?? faker.Random.Int(),
+                    id ?? faker.Random.Guid(),
                     faker.Company.CompanyName(),
                     faker.Person.Email,
                     faker.Address.Country()));
         }
 
-        public static Domain.Entities.Editora GerarEditora(int? id = null)
+        public static Domain.Entities.Editora GerarEditora(Guid? id = null)
         {
             return GerarEditoraInternal(id).Generate();
         }

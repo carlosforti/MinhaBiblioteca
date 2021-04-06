@@ -1,11 +1,12 @@
-﻿namespace MinhaBiblioteca.Application.ViewModels.Livros
+﻿using System;
+
+namespace MinhaBiblioteca.Application.ViewModels.Livros
 {
-    public class AtualizarLivroViewModel
+    public class AtualizarLivroViewModel: BaseViewModel
     {
-        public int Id { get;  set; }
         public string Nome { get;  set; }
         public int Edicao { get;  set; }
-        public int AutorId { get;  set; }
-        public int EditoraId { get;  set; }
+        public Guid AutorId { get;  set; }
+        public Guid EditoraId { get;  set; }
     }
 }

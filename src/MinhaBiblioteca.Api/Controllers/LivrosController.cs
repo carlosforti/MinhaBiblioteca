@@ -58,7 +58,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpGet("{id}", Order = 2)]
         [ProducesResponseType(typeof(Response<LivroViewModel>), (int) HttpStatusCode.OK)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(Guid id)
         {
             var editora = await _buscarLivroPorIdUseCase.Executar(id);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
@@ -88,7 +88,7 @@ namespace MinhaBiblioteca.API.Controllers
         [ProducesResponseType(typeof(Response<LivroViewModel>), (int) HttpStatusCode.Accepted)]
         [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.BadRequest)]
         [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Put(int id, [FromBody] AtualizarLivroViewModel viewModel)
+        public async Task<IActionResult> Put(Guid id, [FromBody] AtualizarLivroViewModel viewModel)
         {
             var editora = await _atualizarLivroUseCase.Executar(id, viewModel);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Put, editora);
@@ -102,7 +102,7 @@ namespace MinhaBiblioteca.API.Controllers
         [HttpDelete("{id}", Order = 5)]
         [ProducesResponseType((int) HttpStatusCode.NoContent)]
         [ProducesResponseType(typeof(Response<>), (int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _excluirLivroUseCase.Executar(id);
             return _responseFormatter.FormatarResposta(TipoRequisicao.Delete, null);

@@ -31,11 +31,11 @@ namespace MinhaBiblioteca.Infra.Data.Context.Configurations
                 .Property(x => x.EditoraId)
                 .IsRequired();
 
-            builder
-                .Ignore(x => x.Autor);
-
-            builder
-                .Ignore(x => x.Editora);
+            // builder
+            //     .Ignore(x => x.Autor);
+            //
+            // builder
+            //     .Ignore(x => x.Editora);
         }
     }
 }

@@ -25,17 +25,23 @@ namespace MinhaBiblioteca.Infra.Data.Configurations
         {
             if (configuration == null)
                 return services.AddDbContext<BibliotecaContext>(options =>
-                    options.UseInMemoryDatabase("BibliotecaContext"));
+                {
+                    options.UseInMemoryDatabase("BibliotecaContext");
+                });
 
             var connectionString = configuration.GetConnectionString("BibliotecaContext");
             var ambienteProducao = configuration?["Environment"] == "Production";
 
             if (ambienteProducao || configuration["ForceProduction"] == "true")
                 return services.AddDbContext<BibliotecaContext>(options =>
-                    options.UseSqlServer(connectionString));
+                {
+                    options.UseSqlServer(connectionString);
+                });
 
             return services.AddDbContext<BibliotecaContext>(options =>
-                    options.UseInMemoryDatabase("BibliotecaContext"));
+            {
+                options.UseInMemoryDatabase("BibliotecaContext");
+            });
         }
     }
 }

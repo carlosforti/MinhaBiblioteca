@@ -8,7 +8,10 @@ namespace MinhaBiblioteca.Infra.Data.Mappings
     {
         public EntidadeParaViewsProfile()
         {
-            CreateMap<Livro, LivroView>();
+            CreateMap<Livro, LivroView>()
+                .ForMember(src => src.Autor, opt => opt.Ignore())
+                .ForMember(src => src.Editora, opt => opt.Ignore());
+
             CreateMap<Autor, AutorView>();
             CreateMap<Editora, EditoraView>();
         }

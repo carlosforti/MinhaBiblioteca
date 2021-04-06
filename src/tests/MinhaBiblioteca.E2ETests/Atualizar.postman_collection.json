@@ -1,0 +1,90 @@
+{
+	"info": {
+		"_postman_id": "86df2551-4db4-48ab-9e84-b2a8f9dc7ab9",
+		"name": "Atualizar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Atualizar Autor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{autorId}}\",\r\n    \"nome\": \"Autor Atualizado\",\r\n    \"email\": \"autor@editora01.com\",\r\n    \"pais\": \"BR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/autores/{{autorId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"autores",
+						"{{autorId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Editora",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"{{editoraId}}\",\r\n    \"nome\": \"Editora 01 Atualizada\",\r\n    \"email\": \"contato@editora01.com\",\r\n    \"pais\": \"Brasil\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/editoras/{{editoraId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"editoras",
+						"{{editoraId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar Livro",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"{{livroId}}\",\r\n  \"nome\": \"Livro Atualizado\",\r\n  \"edicao\": 1,\r\n  \"autorId\": \"{{autorId}}\",\r\n  \"editoraId\": \"{{editoraId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/livros/{{livroId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"livros",
+						"{{livroId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

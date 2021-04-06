@@ -12,23 +12,14 @@ using MinhaBiblioteca.Infra.Data.Views;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
 {
-    public class RepositoryBase
-    {
-        protected BibliotecaContext Context;
-        protected INotificador Notifier;
-        protected IMapper Mapper;
-    }
-
     public class EditoraRepository : RepositoryBase, IEditoraRepository
     {
         private const string NomeEntidade = "Editora";
         private const string EditoraNaoEncontrada = "Editora não encontrada";
 
         public EditoraRepository(BibliotecaContext context, INotificador notifier, IMapper mapper)
+            : base(context, notifier, mapper)
         {
-            Context = context;
-            Notifier = notifier;
-            Mapper = mapper;
         }
 
         public async Task<Editora> AdicionarEditora(Editora editora)
@@ -52,8 +43,9 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
+                var view = Mapper.Map<EditoraView>(editora);
                 // _context.Entry(editora).State = EntityState.Modified;
-                Context.Update(editora);
+                Context.Update(view);
                 await Context.SaveChangesAsync();
                 return editora;
             }
@@ -67,13 +59,10 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         public async Task ExcluirEditora(Guid id)
         {
             var editora = await BuscarEditoraPorId(id);
-            if (editora == null)
-            {
-                Notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NotFound);
-                return;
-            }
+            if (Notifier.ExistemErros) return;
 
-            Context.Remove(editora);
+            var view = Mapper.Map<EditoraView>(editora);
+            Context.Editoras.Remove(view);
             await Context.SaveChangesAsync();
         }
 
@@ -90,7 +79,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
                 var editora = await Context.Editoras.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 if (editora == null)
                     Notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NoContent);
-            
+
                 return Mapper.Map<Editora>(editora);
             }
             catch (Exception e)

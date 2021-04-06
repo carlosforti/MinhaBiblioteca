@@ -1,0 +1,63 @@
+{
+	"info": {
+		"_postman_id": "af9875c1-dcff-4b5c-b3c3-2b89ef2d021b",
+		"name": "Listar Por Id",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Listar Autor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/autores/{{autorId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"autores",
+						"{{autorId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Editora",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/editoras/{{editoraId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"editoras",
+						"{{editoraId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Livro",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/livros/{{livroId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"livros",
+						"{{livroId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

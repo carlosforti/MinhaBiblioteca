@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentAssertions;
 using MinhaBiblioteca.Application.Interfaces.Data;
@@ -59,20 +60,20 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var useCase = GerarUseCase(out var notificador);
 
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync((EditoraViewModel) null)
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_autorViewModel);
 
             var resultado = await useCase.Executar(_inserirLivroViewModel);
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
-            _buscarAutor.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
             _livroRepository.Verify(x => x.InserirLivro(It.IsAny<Livro>()), Times.Never);
         }
         
@@ -85,11 +86,11 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var useCase = GerarUseCase(out var notificador);
 
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_editoraViewModel);
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync((AutorViewModel) null)
                 .Callback(() => notificador.AdicionarErro("erro", "mensagem"));
 
@@ -97,8 +98,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
 
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
-            _buscarAutor.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
             _livroRepository.Verify(x => x.InserirLivro(It.IsAny<Livro>()), Times.Never);
         }
         
@@ -111,11 +112,11 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var useCase = GerarUseCase(out var notificador);
             
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_editoraViewModel);
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_autorViewModel);
             
             _livroRepository
@@ -127,8 +128,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             
             resultado.Should().BeNull();
             notificador.Erros.Should().BeEquivalentTo(notificadorEsperado.Erros);
-            _buscarAutor.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
             _livroRepository.Verify(x => x.InserirLivro(It.IsAny<Livro>()), Times.Once);
         }
         
@@ -144,11 +145,11 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var useCase = GerarUseCase(out var notificador);
             
             _buscarEditora
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_editoraViewModel);
 
             _buscarAutor
-                .Setup(x => x.Executar(It.IsAny<int>()))
+                .Setup(x => x.Executar(It.IsAny<Guid>()))
                 .ReturnsAsync(_autorViewModel);
             
             _livroRepository
@@ -158,8 +159,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var resultado = await useCase.Executar(_inserirLivroViewModel);
 
             resultado.Should().BeEquivalentTo(esperado);
-            _buscarAutor.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
-            _buscarEditora.Verify(x=>x.Executar(It.IsAny<int>()), Times.Once);
+            _buscarAutor.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
+            _buscarEditora.Verify(x=>x.Executar(It.IsAny<Guid>()), Times.Once);
             _livroRepository.Verify(x => x.InserirLivro(It.IsAny<Livro>()), Times.Once);
         }
     }

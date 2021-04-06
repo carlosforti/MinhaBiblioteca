@@ -7,13 +7,19 @@ using System.Text;
 
 namespace MinhaBiblioteca.Infra.Data.Mappings
 {
-    public class LivroToLivroView : Profile
+    public class EntidadeParaViews : Profile
     {
-        public LivroToLivroView()
+        public EntidadeParaViews()
         {
             CreateMap<Livro, LivroView>()
                 .ForMember(dest => dest.AutorId, opt => opt.MapFrom(src => src.Autor.Id))
                 .ForMember(dest => dest.EditoraId, opt => opt.MapFrom(src => src.Editora.Id))
+                .ReverseMap();
+
+            CreateMap<Autor, AutorView>()
+                .ReverseMap();
+
+            CreateMap<Editora, EditoraView>()
                 .ReverseMap();
         }
     }

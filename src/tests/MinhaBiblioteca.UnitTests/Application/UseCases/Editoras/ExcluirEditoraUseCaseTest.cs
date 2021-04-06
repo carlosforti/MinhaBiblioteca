@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Editoras;
 using Moq;
@@ -13,10 +14,11 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Editoras
         [Fact]
         public async Task Executar_DeveExcluirEditora()
         {
-            _editoraRepository.Setup(x => x.ExcluirEditora(It.IsAny<int>()));
+            var id = Guid.NewGuid();
+            _editoraRepository.Setup(x => x.ExcluirEditora(It.IsAny<Guid>()));
             var useCase = new ExcluirEditoraUseCase(_editoraRepository.Object);
-            await useCase.Executar(1);
-            _editoraRepository.Verify(x=>x.ExcluirEditora(1), Times.Once);
+            await useCase.Executar(id);
+            _editoraRepository.Verify(x=>x.ExcluirEditora(id), Times.Once);
         }
     }
 }

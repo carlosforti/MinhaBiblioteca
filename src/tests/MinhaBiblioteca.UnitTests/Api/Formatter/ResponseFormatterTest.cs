@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -39,7 +40,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -59,7 +60,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -79,7 +80,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -101,7 +102,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             {
                 new()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nome = "Editora",
                     Email = "editora@editora.com",
                     Pais = "Brasil"
@@ -124,7 +125,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             {
                 new()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nome = "Editora",
                     Email = "editora@editora.com",
                     Pais = "Brasil"
@@ -147,7 +148,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             {
                 new()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nome = "Editora",
                     Email = "editora@editora.com",
                     Pais = "Brasil"
@@ -170,7 +171,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             {
                 new()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nome = "Editora",
                     Email = "editora@editora.com",
                     Pais = "Brasil"
@@ -190,7 +191,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var responseFormatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -215,7 +216,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             {
                 new()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Nome = "Editora",
                     Email = "editora@editora.com",
                     Pais = "Brasil"
@@ -251,7 +252,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var formatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -275,7 +276,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var formatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -299,7 +300,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var formatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"
@@ -323,7 +324,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
             var formatter = new ResponseFormatter(notificador);
             var editora = new EditoraViewModel
             {
-                Id = 1,
+                Id = Guid.NewGuid(),
                 Nome = "Editora",
                 Email = "editora@editora.com",
                 Pais = "Brasil"

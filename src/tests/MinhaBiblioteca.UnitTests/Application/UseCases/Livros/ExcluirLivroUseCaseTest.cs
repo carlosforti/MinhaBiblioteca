@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MinhaBiblioteca.Application.Interfaces.Data;
 using MinhaBiblioteca.Application.UseCases.Livros;
 using Moq;
@@ -14,8 +15,8 @@ namespace MinhaBiblioteca.UnitTests.Application.UseCases.Livros
             var repository = new Mock<ILivroRepository>();
             var useCase = new ExcluirLivroUseCase(repository.Object);
 
-            await useCase.Executar(1);
-            repository.Verify(x => x.ExcluirLivro(It.IsAny<int>()), Times.Once);
+            await useCase.Executar(Guid.NewGuid());
+            repository.Verify(x => x.ExcluirLivro(It.IsAny<Guid>()), Times.Once);
         }
     }
 }

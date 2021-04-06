@@ -11,43 +11,37 @@ using MinhaBiblioteca.Infra.Shared.Notificacoes;
 
 namespace MinhaBiblioteca.Infra.Data.Repositories
 {
-    public class AutorRepository : IAutorRepository
+    public class AutorRepository : RepositoryBase, IAutorRepository
     {
         private const string NomeEntidade = "Autor";
         private const string AutorNaoEncontrado = "Autor Não Encontrado";
 
-        private readonly IMapper _mapper;
-        private readonly BibliotecaContext _context;
-        private readonly INotificador _notificador;
-
         public AutorRepository(BibliotecaContext context, INotificador notificador, IMapper mapper)
+            : base(context, notificador, mapper)
         {
-            _context = context;
-            _notificador = notificador;
-            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Autor>> ListarAutores()
         {
-            var autores = _context.Autores.AsNoTracking();
-            return await Task.FromResult(_mapper.Map<IEnumerable<Autor>>(autores));
+            var autores = Context.Autores.AsNoTracking();
+            return await Task.FromResult(Mapper.Map<IEnumerable<Autor>>(autores));
         }
 
         public async Task<Autor> BuscarAutorPorId(Guid id)
         {
             try
             {
-                var autor = await _context.Autores.FirstOrDefaultAsync(x => x.Id == id);
+                var autor = await Context.Autores.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 if (autor == null)
-                    _notificador.AdicionarErro(NomeEntidade,
+                    Notifier.AdicionarErro(NomeEntidade,
                         AutorNaoEncontrado,
                         System.Net.HttpStatusCode.NoContent);
 
-                return _mapper.Map<Autor>(autor);
+                return Mapper.Map<Autor>(autor);
             }
             catch (Exception ex)
             {
-                _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
+                Notifier.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -56,16 +50,16 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
-                var view = _mapper.Map<AutorView>(autor);
+                var view = Mapper.Map<AutorView>(autor);
                 view.Id = Guid.NewGuid();
-                var resultado = await _context.Autores.AddAsync(view);
-                await _context.SaveChangesAsync();
+                var resultado = await Context.Autores.AddAsync(view);
+                await Context.SaveChangesAsync();
 
-                return _mapper.Map<Autor>(resultado.Entity);
+                return Mapper.Map<Autor>(resultado.Entity);
             }
             catch (Exception ex)
             {
-                _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
+                Notifier.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -74,13 +68,15 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
-                _context.Update(autor);
-                await _context.SaveChangesAsync();
+                var view = Mapper.Map<AutorView>(autor);
+                Context.Entry(view).State = EntityState.Modified;
+                
+                await Context.SaveChangesAsync();
                 return autor;
             }
             catch (Exception ex)
             {
-                _notificador.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
+                Notifier.AdicionarErro(NomeEntidade, ex.Message, System.Net.HttpStatusCode.InternalServerError);
                 return null;
             }
         }
@@ -88,10 +84,11 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         public async Task ExcluirAutor(Guid id)
         {
             var autor = await BuscarAutorPorId(id);
-            if (_notificador.ExistemErros) return;
+            if (Notifier.ExistemErros) return;
 
-            _context.Autores.Remove(_mapper.Map<AutorView>(autor));
-            await _context.SaveChangesAsync();
+            var view = Mapper.Map<AutorView>(autor);
+            Context.Autores.Remove(view);
+            await Context.SaveChangesAsync();
         }
     }
 }

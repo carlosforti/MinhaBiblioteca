@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "85ad9466-4843-492b-a915-98ae6a127ef6",
+		"name": "Inserir",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Inserir Autor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('autorId', pm.response.json().retorno.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Autor Demo\",\r\n    \"email\": \"autordemo@autordemo.com\",\r\n    \"pais\": \"Brasil\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/autores",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"autores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserir Editora",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('editoraId', pm.response.json().retorno.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Editora 01\",\r\n    \"email\": \"contato@editora01.com\",\r\n    \"pais\": \"Brasil\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/editoras",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"editoras"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Inserir Livro",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set('livroId', pm.response.json().retorno.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Livro 01\",\r\n    \"edicao\": 1,\r\n    \"autorId\": \"{{autorId}}\",\r\n    \"editoraId\": \"{{editoraId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url_api}}/livros",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"livros"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -82,9 +82,9 @@ namespace MinhaBiblioteca.API.Controllers
         }
 
         [HttpPut("{id}", Order = 4)]
-        [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.Accepted)]
-        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.NotFound)]
+        // [ProducesResponseType(typeof(Response<EditoraViewModel>), (int)HttpStatusCode.Accepted)]
+        // [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.BadRequest)]
+        // [ProducesResponseType(typeof(Response<>), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Put(Guid id, [FromBody] AtualizarEditoraViewModel viewModel)
         {
             var editora = await _atualizarEditoraUseCase.Executar(id, viewModel);

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -21,9 +22,18 @@ namespace MinhaBiblioteca.API.Formatter
             {
                 HttpStatusCode.NoContent => new NoContentResult(),
                 HttpStatusCode.NotFound => new NotFoundResult(),
-                HttpStatusCode.InternalServerError => new StatusCodeResult((int)HttpStatusCode.InternalServerError),
+                HttpStatusCode.InternalServerError => GerarInternalServerError(_notificador.Erros),
                 _ => new BadRequestObjectResult(_notificador.Erros)
             };
+        }
+
+        private static ObjectResult GerarInternalServerError(IEnumerable<Notificacao> erros)
+        {
+            var resultado = new ObjectResult(erros)
+            {
+                StatusCode = (int) HttpStatusCode.InternalServerError
+            };
+            return resultado;
         }
 
         public IActionResult FormatarResposta(TipoRequisicao tipoRequisicao, object valor)

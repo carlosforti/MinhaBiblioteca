@@ -48,7 +48,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
 
-            resultado.Should().BeOfType<StatusCodeResult>()
+            resultado.Should().BeOfType<ObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
         }
 
@@ -134,7 +134,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
 
-            resultado.Should().BeOfType<StatusCodeResult>()
+            resultado.Should().BeOfType<ObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.InternalServerError);
         }
 

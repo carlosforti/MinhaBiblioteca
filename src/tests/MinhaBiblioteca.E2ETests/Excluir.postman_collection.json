@@ -1,0 +1,63 @@
+{
+	"info": {
+		"_postman_id": "b6c11d4c-cc57-4a9d-83ad-cdd459be9b34",
+		"name": "Excluir",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Excluir Autor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/autores/{{autorId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"autores",
+						"{{autorId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Editora",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/editoras/{{editoraId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"editoras",
+						"{{editoraId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir Livro",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url_api}}/livros/{{livroId}}",
+					"host": [
+						"{{url_api}}"
+					],
+					"path": [
+						"livros",
+						"{{livroId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

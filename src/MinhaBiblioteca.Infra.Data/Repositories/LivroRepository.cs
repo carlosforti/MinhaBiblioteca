@@ -35,7 +35,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             var livro = await Context.Livros.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             if (livro == null)
-                Notifier.AdicionarErro(NomeEntidade, LivroNaoEncontrada, System.Net.HttpStatusCode.NoContent);
+                Notifier.AdicionarErro(NomeEntidade, LivroNaoEncontrada, System.Net.HttpStatusCode.NotFound);
 
             return Mapper.Map<Livro>(livro);
         }
@@ -51,6 +51,9 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
 
         public async Task<Livro> AtualizarLivro(Livro livro)
         {
+            var atual = await BuscarLivroPorId(livro.Id);
+            if (atual == null) return null;
+            
             var livroView = Mapper.Map<LivroView>(livro);
             Context.Update(livroView);
             await Context.SaveChangesAsync();

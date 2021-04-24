@@ -88,7 +88,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
 
-            resultado.Should().BeOfType<NotFoundResult>()
+            resultado.Should().BeOfType<ObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
 
@@ -180,7 +180,7 @@ namespace MinhaBiblioteca.UnitTests.Api.Formatter
 
             var resultado = responseFormatter.FormatarResposta(TipoRequisicao.Get, editora);
 
-            resultado.Should().BeOfType<NotFoundResult>()
+            resultado.Should().BeOfType<ObjectResult>()
                 .Which.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
         }
 

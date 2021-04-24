@@ -43,8 +43,11 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
+                var atual = await BuscarEditoraPorId(editora.Id);
+                if(atual == null)
+                    return null;
+
                 var view = Mapper.Map<EditoraView>(editora);
-                // _context.Entry(editora).State = EntityState.Modified;
                 Context.Update(view);
                 await Context.SaveChangesAsync();
                 return editora;
@@ -78,7 +81,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
             {
                 var editora = await Context.Editoras.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
                 if (editora == null)
-                    Notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NoContent);
+                    Notifier.AdicionarErro(NomeEntidade, EditoraNaoEncontrada, HttpStatusCode.NotFound);
 
                 return Mapper.Map<Editora>(editora);
             }

@@ -7,7 +7,7 @@ namespace MinhaBiblioteca.API.Formatter
     public class Response<T>
     {
         private readonly Dictionary<string, IList<string>> _mensagens = new();
-
+        
         public T Retorno { get; }
         public IReadOnlyDictionary<string, IList<string>> Mensagens => _mensagens;
 
@@ -30,8 +30,8 @@ namespace MinhaBiblioteca.API.Formatter
         {
             if (!_mensagens.ContainsKey(propriedade))
                 _mensagens.Add(propriedade, new List<string> {mensagem});
-
-            _mensagens[propriedade].Add(mensagem);
+            else
+                _mensagens[propriedade].Add(mensagem);
         }
     }
 }

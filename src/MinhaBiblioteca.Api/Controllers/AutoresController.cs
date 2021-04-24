@@ -56,7 +56,7 @@ namespace MinhaBiblioteca.API.Controllers
         /// <returns>Autor, ou sem conteúdo, caso não encontre</returns>
         [HttpGet("{id}", Order = 2)]
         [ProducesResponseType(typeof(Response<AutorViewModel>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(Guid id)
         {
             var autor = await _buscarAutorPorIdUseCase.Executar(id);

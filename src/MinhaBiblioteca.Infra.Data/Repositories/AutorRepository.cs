@@ -35,7 +35,7 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
                 if (autor == null)
                     Notifier.AdicionarErro(NomeEntidade,
                         AutorNaoEncontrado,
-                        System.Net.HttpStatusCode.NoContent);
+                        System.Net.HttpStatusCode.NotFound);
 
                 return Mapper.Map<Autor>(autor);
             }
@@ -68,9 +68,13 @@ namespace MinhaBiblioteca.Infra.Data.Repositories
         {
             try
             {
+                var atual = await BuscarAutorPorId(autor.Id);
+                if(atual == null)
+                    return null;
+
                 var view = Mapper.Map<AutorView>(autor);
                 Context.Entry(view).State = EntityState.Modified;
-                
+
                 await Context.SaveChangesAsync();
                 return autor;
             }
